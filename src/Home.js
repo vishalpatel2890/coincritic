@@ -1,73 +1,96 @@
 import React, { Component } from "react";
-import TextField from "material-ui/TextField";
-import Badge from "material-ui/Badge";
-import IconButton from "material-ui/IconButton";
-import MailOutline from "material-ui/svg-icons/communication/mail-outline";
-import { Input, Icon, Rate, Avatar } from "antd";
+import _ from "lodash";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { Avatar, Input, Row, Col } from "antd";
+import firebase from "firebase";
 
-import logo from "./logo.svg";
 import "./App.css";
+import Table from "./components/table/Table";
+import Header from "./Header";
+import { fetchCoins, navCoin } from "./actions";
 
 class Home extends Component {
+	componentWillMount() {
+		this.props.fetchCoins();
+	}
+
 	render() {
+		console.log(this.props.followedCoins);
+		const { coins, user, followedCoins } = this.props;
+		let coinsSignedIn = this.props.coins.map(coin => {
+			let newArray = Object.assign({}, coin);
+			newArray.follow = "follow";
+			return newArray;
+		});
+
+		const coinData = this.props.user ? coinsSignedIn : coins;
+
 		return (
 			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<Input
-						placeholder="search coins"
-						prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-						className="App-search"
-					/>
-					<div className="App-account">
-						<div className="App-user-star">
-							<div className="App-user">
-								<p style={{ marginBottom: 0 }}>Hank</p>
+				<Header />
+				{user ? (
+					<div className="Following">
+						<div className="Following-avatar">
+							<Avatar size="large" icon="user" />
+							<p className="Following-following">FOLLOWING</p>
+						</div>
+						{followedCoins ? (
+							<div className="Following-grid">
+								<Row gutter={48}>
+									{followedCoins.map((coin, idx) => (
+										<Col
+											style={{ width: "20%", marginBottom: "5em" }}
+											className="gutter-row"
+											span={4}
+										>
+											<Link
+												to={{
+													pathname: `coins/${coin.uid}`}}
+													>
+												<img height="110" width="110" src={coin.coinURI} />
+												<p style={{ marginTop: 16, fontWeight: "bold" }}>
+													{coin.coinName}
+												</p>
+											</Link>
+										</Col>
+									))}
+								</Row>
 							</div>
-							<Rate
-								style={{ fontSize: 12 }}
-								character={<Icon type="star" />}
-								disabled
-								allowHalf
-								defaultValue={2.5}
-							/>
-						</div>
-						<div className="App-avatar">
-							<Avatar
-								className="App-avatar-border"
-								size="large"
-								src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-							/>
-						</div>
-            <div className="App-notification">
-						<Badge
-            style={{padding: 0}}
-							badgeContent={10}
-							secondary={true}
-							badgeStyle={{ top: -1 , right: -3 }}
-						>
-							<IconButton iconStyle={{width: 30, height: 30}} tooltip="Notifications">
-								<MailOutline  />
-							</IconButton>
-						</Badge>
-            </div>
+						) : (
+							<p>You have no coins you are following.</p>
+						)}
 					</div>
-				</header>
-        <div className="Following">
-          <div className="Following-avatar">
-          <Avatar
-            size="large"
-           icon="user"
-          />
-        </div>
-          <p>+ Sign in to add your favorite coins to your dashboard</p>
-        </div>
-				<p className="App-intro">
-					To get started, edit <code>src/App.js</code> and save to reload.
-				</p>
+				) : (
+					<div className="Following">
+						<div className="Following-avatar">
+							<Avatar size="large" icon="user" />
+							<p className="Following-following">FOLLOWING</p>
+						</div>
+
+						<p>+ Sign in to add your favorite coins to your dashboard</p>
+					</div>
+				)}
+
+				<Table data={coinData} />
 			</div>
 		);
 	}
 }
 
-export default Home;
+const mapStateToProps = state => {
+	const coins = _.map(state.coins, (val, uid) => {
+		return { ...val, uid };
+	});
+	const followedCoins = _.map(state.followedCoins, (val, uid) => {
+		return { ...val, uid };
+	});
+	const { email, password, error, loading, user } = state.auth;
+
+	return { email, password, error, loading, user, coins, followedCoins };
+};
+
+export default connect(mapStateToProps, {
+	fetchCoins,
+	navCoin
+})(Home);

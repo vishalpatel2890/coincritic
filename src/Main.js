@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import Home from "./Home";
-// import SignUp from './SignUp/SignUp'
-// import Dashboard from './Dashboard'
-// import Blog from './Blog'
-// import CreateAccount from './CreateAccount'
+import Admin from "./Admin";
+import Coins from "./Coins"
 
 class Main extends Component {
 	render() {
@@ -13,6 +11,8 @@ class Main extends Component {
 			<main>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					<Route path="/admin" component={Admin}/>
+					<Route path="/coins" component={Coins} />
 				</Switch>
 			</main>
 		);
