@@ -1,194 +1,267 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
 .App {
-  padding-left: 56px;
-  padding-right: 56px;
+	padding-left: 56px;
+	padding-right: 56px;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+	animation: App-logo-spin infinite 20s linear;
+	height: 80px;
 }
 
 .App-header {
-  background-color: #ffffff;
-  width: 100%;
-  height: 100px;
-  padding-top: 26px;
-  color: #595a66;
-  display: flex;
-  align-items: center;
+	background-color: #ffffff;
+	width: 100%;
+	height: 100px;
+	padding-top: 26px;
+	color: #595a66;
+	display: flex;
+	align-items: center;
 }
 
 .App-search {
-  width: 30%;
-  height: 43px;
+	width: 30%;
+	height: 43px;
 }
 
-.App-search .ant-input{
-  border-radius: 4px;
-  background-color: #ffffff;
-  border: solid 1px #bbbdcc;
+.App-search .ant-input {
+	border-radius: 4px;
+	background-color: #ffffff;
+	border: solid 1px #bbbdcc;
 }
 
 .App-account {
-  margin-left: auto;
-  display: flex;
+	margin-left: auto;
+	display: flex;
 }
 
 .App-user-star {
-  display:flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-end;
 }
 
 .App-user {
-  margin-bottom: 0;
-  margin-right: .75em;
+	margin-bottom: 0;
+	margin-right: 0.75em;
 }
 
 .App-avatar {
-  justify-content: flex-end;
+	justify-content: flex-end;
 }
 
 .App-avatar .ant-avatar-lg {
-  width: 42px;
-  height: 42px;
-  border-radius: 21px;
-  border: solid 2px #595a66;
+	width: 42px;
+	height: 42px;
+	border-radius: 21px;
+	border: solid 2px #595a66;
 }
 
 .App-sign-in {
-  display: flex;
+	display: flex;
 }
 
 .Following {
-  width : 100%;
-  min-height: 133px;
-  border-radius: 13px;
-  margin-bottom: 30px;
-  margin-top: 80px;
-  background-color: #efeff2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-  position: relative;
+	width: 100%;
+	min-height: 133px;
+	border-radius: 13px;
+	margin-bottom: 30px;
+	margin-top: 80px;
+	background-color: #efeff2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: visible;
+	position: relative;
 }
 
 .Following-avatar {
-  position: absolute;
-  display: flex;
-  top: -20px;
-  left: 50px;
+	position: absolute;
+	display: flex;
+	top: -20px;
+	left: 50px;
 }
 
 .Following-following {
-  position: absolute;
-  top: 30px;
-  left: 80px;
+	position: absolute;
+	top: 30px;
+	left: 80px;
 }
 
 .Following-avatar .ant-avatar-lg {
-  width: 68px;
-  height: 68px;
-  border-radius: 34px;
-  border: solid 2px #000000;
-  line-height: 80px;
+	width: 68px;
+	height: 68px;
+	border-radius: 34px;
+	border: solid 2px #000000;
+	line-height: 80px;
 }
 
 .Following-avatar .ant-avatar-lg.ant-avatar-icon {
-  font-size: 50px;
-  color: black;
-
+	font-size: 50px;
+	color: black;
 }
 
 .Following-grid {
-  width: 100%;
-  text-align: center;
-  padding-top: 5em;
-  text-transform: uppercase;
+	width: 100%;
+	text-align: center;
+	padding-top: 5em;
+	text-transform: uppercase;
 }
 
 .tr-string-example {
-  border-bottom: 1px solid black;
-  width: 100%;
-  height: 50px;
-  text-transform: uppercase;
+	border-bottom: 1px solid black;
+	width: 100%;
+	height: 50px;
+	text-transform: uppercase;
 }
 
-.coin-table-header{
-  width: 100%;
+.coin-table-header {
+	width: 100%;
 }
 
 .coin-img-td {
-  width: 5%;
+	width: 5%;
 }
 
 .App-title {
-  font-size: 1.5em;
+	font-size: 1.5em;
 }
 
 .App-intro {
-  font-size: large;
+	font-size: large;
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 .coin-box {
-  width : 50%;
-  min-height: 133px;
-  margin-bottom: 30px;
-  margin-top: 80px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  overflow: visible;
-  position: relative;
+	width: 50%;
+	min-height: 133px;
+	margin-bottom: 30px;
+	margin-top: 80px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	overflow: visible;
+	position: relative;
 }
 
 .coin-box-left {
-  flex: .25;
-  display: flex;
-  flex-direction: column;
-
+	flex: 0.25;
+	display: flex;
+	flex-direction: column;
 }
 
 .coin-box-left-image {
-  flex: 1;
+	flex: 1;
 }
 
 .coin-box-left-website {
-  flex: 1;
-  text-align: center;
-  margin-top: 7px;
+	flex: 1;
+	text-align: center;
+	margin-top: 7px;
 }
 
 .coin-box-right {
-  flex: .75;
-  display: flex;
-  flex-direction: column;
-  margin-left: 26px;
+	flex: 0.75;
+	display: flex;
+	flex-direction: column;
+	margin-left: 26px;
 }
 
 .coin-box-right-avg {
-  background-color: #f4f4f4;
-  display: flex;
-  flex: 1;
-  padding-top: 13px;
-  padding-bottom: 11px;
+	background-color: #f4f4f4;
+	display: flex;
+	border-radius: 4px;
+	flex: 1;
+	padding-top: 13px;
+	padding-bottom: 11px;
 }
 
 .coin-box-right-avg-label {
-  flex: .4;
+	flex: 0.4;
+	padding-left: 10px;
+}
+
+.coin-box-right-avg-rating {
+	flex: 0.6;
+}
+
+.coin-box-right-reviews {
+  display: flex;
+  flex: 1;
+  padding-top: 21px;
+  padding-bottom: 21px;
+}
+
+.coin-box-right-reviews-left {
+  flex: 0.4;
   padding-left: 10px;
+}
+
+.coin-box-right-reviews-right {
+  flex:0.6;
+}
+
+.coin-box-right-reviews-breakdown {
+  display: flex;
+  flex: 1;
+}
+
+.coin-box-right-reviews-breakdown-left {
+  flex: 0.4;
+  padding-left: 10px;
+}
+
+.coin-box-right-reviews-breakdown-right {
+  flex:0.6;
+}
+
+
+.review-box {
+	display: flex;
+	background-color: #f4f4f4;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.review-form{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	padding: 20px;
+	width: 100%;
+}
+
+.review-rating {
+	display: flex !important;
+	flex: 1;
 
 }
 
-.coin-box-right-avg-rating{
-  flex: .6
+.review-rating-stars {
+	align-self: center;
+	width: 40%;
+}
+
+.review-rating-label {
+	align-self: flex-start;
+	margin-right: 10em;
+	width: 20%;
+}
+
+.ant-form-item {
+margin-bottom: 0px;
+}
+
+.review-bottom-line{
+	display: inline;
 }
