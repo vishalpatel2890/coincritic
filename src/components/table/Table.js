@@ -25,9 +25,9 @@ class Table extends Component {
 		);
 	}
 
-	follow = (coinUid, coinURI, coinName) => {
+	follow = (coinURI, coinUid) => {
 		const userUid = this.props.user.uid;
-		this.props.followCoin({ userUid, coinUid, coinURI, coinName });
+		this.props.followCoin({ userUid, coinURI, coinUid });
 	};
 
 	unfollow = (coinUid) => {
@@ -39,8 +39,8 @@ class Table extends Component {
 
 		var coinCheck = this.props.followedCoins.filter(function(coin){ return coin.uid === row.uid   })
 		console.log(coinCheck)
-		if (coinCheck.length == 0) {
-			return <p onClick={() => this.follow(row.uid, row.coin, row.name)}>Follow</p>
+		if (coinCheck.length === 0) {
+			return <p onClick={() => this.follow(row.image, row.uid)}>Follow</p>
 		} else {
 			return <p onClick={() => this.unfollow(row.uid)}>Unfollow</p>
 			;
@@ -57,14 +57,14 @@ class Table extends Component {
 				tableBodyClass="coin-table-header"
 			>
 				<TableHeaderColumn
-					dataField="coin"
+					dataField="image"
 					dataFormat={this.coinFormatter}
 					columnClassName="coin-img-td"
 					isKey
 				>
 					Name
 				</TableHeaderColumn>
-				<TableHeaderColumn dataField="name" dataFormat={this.nameFormatter} />
+				<TableHeaderColumn dataField="uid" dataFormat={this.nameFormatter} />
 				<TableHeaderColumn
 					dataField="follow"
 					dataFormat={this.followFormatter.bind(this)}

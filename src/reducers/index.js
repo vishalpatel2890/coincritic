@@ -6,6 +6,11 @@ import { auth } from "./AuthReducer";
 import { followCoin} from "./userFollowReducer"
 import { followedCoins } from "./fetchFollowedCoinsReducer"
 import {currentCoin} from "./fetchSingleCoinReducer"
+import {postsForCoin} from "./fetchPostsForCoinReducer"
+import {commentsForPost} from "./fetchCommentsForPostReducer"
+import {childComments} from "./fetchChildCommentsReducer"
+import {userVotes} from "./fetchUserVotes"
+import {post} from "./postReducer"
 
 const rootReducer = combineReducers({
 	auth,
@@ -14,6 +19,11 @@ const rootReducer = combineReducers({
 	followCoin,
 	followedCoins,
 	currentCoin,
+	post,
+	postsForCoin,
+	commentsForPost,
+	childComments,
+	userVotes,
 	form: reduxForm
 });
 

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Button from 'material-ui/Button';
 
 import { addCoin } from "./actions";
-import logo from "./logo.svg";
 import FormInput from "./components/common/FormInput";
 import "./App.css";
 

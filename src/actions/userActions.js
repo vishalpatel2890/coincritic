@@ -1,15 +1,13 @@
 import {
-	FOLLOW_COIN,
-	FETCH_FOLLOWED_COINS_SUCCESS
+	FOLLOW_COIN
 } from "../constants/constants";
 import firebase from "firebase";
 
-export const followCoin = ({ userUid, coinUid, coinURI, coinName }) => {
-	console.log(coinUid);
+export const followCoin = ({ userUid, coinURI, coinUid }) => {
 	var updates = {};
 	updates["/coinsFollowedByUser/" + userUid + "/" + coinUid] = {
 		coinURI,
-		coinName
+		coinUid
 	};
 	updates["/followersbyCoin/" + coinUid + "/" + userUid] = {
 		following: "following"

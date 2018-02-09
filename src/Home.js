@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Avatar, Input, Row, Col } from "antd";
-import firebase from "firebase";
+import { Avatar, Row, Col } from "antd";
 
 import "./App.css";
 import Table from "./components/table/Table";
@@ -16,7 +15,6 @@ class Home extends Component {
 	}
 
 	render() {
-		console.log(this.props.followedCoins);
 		const { coins, user, followedCoins } = this.props;
 		let coinsSignedIn = this.props.coins.map(coin => {
 			let newArray = Object.assign({}, coin);
@@ -25,7 +23,6 @@ class Home extends Component {
 		});
 
 		const coinData = this.props.user ? coinsSignedIn : coins;
-
 		return (
 			<div className="App">
 				<Header />
@@ -50,7 +47,7 @@ class Home extends Component {
 													>
 												<img height="110" width="110" src={coin.coinURI} />
 												<p style={{ marginTop: 16, fontWeight: "bold" }}>
-													{coin.coinName}
+													{coin.uid}
 												</p>
 											</Link>
 										</Col>
@@ -86,7 +83,7 @@ const mapStateToProps = state => {
 		return { ...val, uid };
 	});
 	const { email, password, error, loading, user } = state.auth;
-
+	
 	return { email, password, error, loading, user, coins, followedCoins };
 };
 

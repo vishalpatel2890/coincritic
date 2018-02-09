@@ -11,7 +11,8 @@ export const addCoin = ({ name, coin }) => {
 		firebase
 			.database()
 			.ref("/coins")
-			.push({ name, coin })
+      .child(name)
+      .set({'image': coin })
 			.then(() => {
 				dispatch({ type: ADD_COIN });
 			});

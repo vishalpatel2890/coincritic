@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Rate, Icon, Input, Form } from "antd";
+import { Button, Rate, Icon } from "antd";
+import _ from "lodash";
 
 import Header from "./Header";
-import ReviewModal from "./components/modals/review-modal";
-import { fetchSingleCoin } from "./actions";
-
-const FormItem = Form.Item;
+import ReviewForm from "./components/forms/ReviewForm";
+import ThreadForm from "./components/forms/ThreadForm";
+import Thread from "./components/Thread";
+import { fetchSingleCoin, fetchPostsForCoin } from "./actions";
 
 class CoinPage extends Component {
 	componentWillMount() {
 		this.props.fetchSingleCoin(this.props.match.params.coin);
+		this.props.fetchPostsForCoin(this.props.match.params.coin);
 	}
 
 	state = {
-		review: false
+		review: false,
+		thread: false
 	};
 
 	handleReviewOpen = () => {
@@ -25,24 +28,43 @@ class CoinPage extends Component {
 		this.setState({ review: false });
 	};
 
+	handleThreadOpen = () => {
+		this.setState({ thread: true });
+	};
+
+	handleThreadClose = () => {
+		this.setState({ thread: false });
+	};
+
 	render() {
-		const { currentCoin } = this.props;
+		const { currentCoin, postsForCoin } = this.props;
+		const { review, thread } = this.state;
 		return (
 			<div className="App">
 				<Header />
 				<div className="coin-box">
 					<div className="coin-box-left">
 						<div className="coin-box-left-image">
-							<img height="154" width="154" src={currentCoin.coin} />
+							<img height="154" width="154" src={currentCoin.image} />
 						</div>
 						<div className="coin-box-left-website">
 							<p>{currentCoin.name}</p>
-							{this.state.review === false ? (
-							<Button onClick={this.handleReviewOpen}>Write A Review</Button>
-						) : (
-							null
-						)
-					}
+							{this.state.review === false && this.state.thread === false ? (
+								<div>
+									<Button
+										style={{ width: 125 }}
+										onClick={this.handleReviewOpen}
+									>
+										Write A Review
+									</Button>
+									<Button
+										style={{ width: 125, margin: 10 }}
+										onClick={this.handleThreadOpen}
+									>
+										Start A Thread
+									</Button>
+								</div>
+							) : null}
 						</div>
 					</div>
 					<div className="coin-box-right">
@@ -110,12 +132,13 @@ class CoinPage extends Component {
 						</div>
 					</div>
 				</div>
-				{this.state.review === false ? (
-				null
-			) : (
-				<ReviewModal coinName={currentCoin.name}/>
-			)
-		}
+				{review === false && thread === false ? (
+					<Thread coinUid={this.props.match.params.coin} postsForCoin={postsForCoin} />
+				) : review === true && thread === false ? (
+					<ReviewForm handleReviewClose={this.handleReviewClose} coinName={currentCoin.name} />
+				) : (
+					<ThreadForm handleThreadClose={this.handleThreadClose} coinUid={this.props.match.params.coin} />
+				)}
 			</div>
 		);
 	}
@@ -123,8 +146,12 @@ class CoinPage extends Component {
 
 const mapStateToProps = state => {
 	const { currentCoin } = state;
-
-	return { currentCoin };
+	const postsForCoin = _.map(state.postsForCoin, (val, uid) => {
+		return { ...val, uid };
+	});
+	return { currentCoin, postsForCoin };
 };
 
-export default connect(mapStateToProps, { fetchSingleCoin })(CoinPage);
+export default connect(mapStateToProps, { fetchSingleCoin, fetchPostsForCoin })(
+	CoinPage
+);

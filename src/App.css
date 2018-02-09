@@ -265,3 +265,106 @@ margin-bottom: 0px;
 .review-bottom-line{
 	display: inline;
 }
+
+.thread {
+	display: flex;
+	background: #f4f4f4;
+	border-radius: 4px;
+	flex-direction: column;
+
+}
+
+.thread-row {
+	display: flex;
+	flex-direction: column;
+	padding-left: 2em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-right: 2em;
+	border-bottom: 3px solid white;
+}
+
+.vote-count{
+	flex: none;
+	align-self: center;
+	padding-right: 2em;
+}
+
+.post {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+
+}
+
+.post-comment{
+	flex: 1;
+	padding-left: 2em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-right: 2em;
+}
+
+.post-row {
+	display: flex;
+	flex: 1;
+	margin: 0;
+	height: 1.75em;
+}
+
+.post-row-left {
+	justify-content: flex-start;
+	flex: 1;
+}
+
+.post-row-right {
+	padding-right: 2em;
+	text-align: right;
+	flex: 1;
+}
+
+.comment {
+	background-color: #f4f4f4;
+	border-radius: 4px;
+	border: none;
+}
+
+.comment-row {
+	border-bottom: 3px solid white !important;
+}
+
+.comment-row-sub {
+	border: none !important;
+}
+
+.follow{
+	flex: none;
+	padding-left: .2em;
+	align-self: center;
+}
+
+.follow-flag{
+	color: white
+}
+
+.follow-flag:hover{
+	color: black
+}
+
+
+.header-row {
+	display: flex;
+}
+
+.header-buttons {
+	flex: .05;
+	height: 80px;
+}
+
+.header-content {
+	flex: .9;
+}
+
+.header-reply {
+	flex: .05;
+}
