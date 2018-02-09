@@ -5,11 +5,13 @@ import { coins } from "./coinFetchReducer";
 import { auth } from "./AuthReducer";
 import { followCoin} from "./userFollowReducer"
 import { followedCoins } from "./fetchFollowedCoinsReducer"
+import { followedPosts } from "./fetchFollowedPostsReducer"
 import {currentCoin} from "./fetchSingleCoinReducer"
 import {postsForCoin} from "./fetchPostsForCoinReducer"
 import {commentsForPost} from "./fetchCommentsForPostReducer"
 import {childComments} from "./fetchChildCommentsReducer"
 import {userVotes} from "./fetchUserVotes"
+import {postDetails} from "./fetchPostDetailsReducer.js"
 import {post} from "./postReducer"
 
 const rootReducer = combineReducers({
@@ -18,9 +20,11 @@ const rootReducer = combineReducers({
 	coins,
 	followCoin,
 	followedCoins,
+	followedPosts,
 	currentCoin,
 	post,
 	postsForCoin,
+	postDetails,
 	commentsForPost,
 	childComments,
 	userVotes,

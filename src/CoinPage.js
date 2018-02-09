@@ -7,7 +7,7 @@ import Header from "./Header";
 import ReviewForm from "./components/forms/ReviewForm";
 import ThreadForm from "./components/forms/ThreadForm";
 import Thread from "./components/Thread";
-import { fetchSingleCoin, fetchPostsForCoin } from "./actions";
+import { fetchSingleCoin, fetchPostsForCoin, followCoin, unfollowCoin } from "./actions";
 
 class CoinPage extends Component {
 	componentWillMount() {
@@ -36,9 +36,24 @@ class CoinPage extends Component {
 		this.setState({ thread: false });
 	};
 
+	follow = () => {
+		const userUid = this.props.user.uid;
+		const coinUid = this.props.match.params.coin
+		const coinURI = this.props.currentCoin.image
+		this.props.followCoin({ userUid, coinURI, coinUid });
+	};
+
+	unfollow = () => {
+		const userUid = this.props.user.uid;
+		const coinUid = this.props.match.params.coin;
+		this.props.unfollowCoin({userUid, coinUid});
+	}
+
 	render() {
-		const { currentCoin, postsForCoin } = this.props;
+		const { currentCoin, postsForCoin, followedCoins, user } = this.props;
 		const { review, thread } = this.state;
+		const currentCoinUid = this.props.match.params.coin;
+		var coinCheck = followedCoins ? followedCoins.filter(function(coin){ return coin.uid === currentCoinUid   }) : null
 		return (
 			<div className="App">
 				<Header />
@@ -48,7 +63,7 @@ class CoinPage extends Component {
 							<img height="154" width="154" src={currentCoin.image} />
 						</div>
 						<div className="coin-box-left-website">
-							<p>{currentCoin.name}</p>
+							<p>{this.props.match.params.coin}</p>
 							{this.state.review === false && this.state.thread === false ? (
 								<div>
 									<Button
@@ -69,12 +84,14 @@ class CoinPage extends Component {
 					</div>
 					<div className="coin-box-right">
 						<p style={{ textTransform: "uppercase" }}>{currentCoin.name}</p>
+						{user ? coinCheck.length > 0 ? <p onClick={this.unfollow}>UNFOLLOW</p> : <p onClick={this.follow}>FOLLOW</p> : (null)}
 						<div className="coin-box-right-avg">
+
 							<div className="coin-box-right-avg-label">
 								<p>Average Coincritic Community Rating</p>
 							</div>
 							<div className="coin-box-right-avg-rating">
-								{" "}
+
 								<Rate
 									style={{ fontSize: 28 }}
 									character={<Icon type="star" />}
@@ -149,9 +166,13 @@ const mapStateToProps = state => {
 	const postsForCoin = _.map(state.postsForCoin, (val, uid) => {
 		return { ...val, uid };
 	});
-	return { currentCoin, postsForCoin };
+	const {user} = state.auth;
+	const followedCoins = _.map(state.followedCoins, (val, uid) => {
+		return { ...val, uid };
+	});
+	return { currentCoin, postsForCoin, followedCoins, user };
 };
 
-export default connect(mapStateToProps, { fetchSingleCoin, fetchPostsForCoin })(
+export default connect(mapStateToProps, { fetchSingleCoin, fetchPostsForCoin, followCoin, unfollowCoin })(
 	CoinPage
 );

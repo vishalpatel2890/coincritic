@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Icon as IconA } from "antd";
-import Flag from 'material-ui-icons/Flag';
+import Flag from "material-ui-icons/Flag";
+import _ from "lodash";
 
 import ThreadPage from "./ThreadPage";
-import { votePost } from "../actions";
+import { votePost, followPost, unfollowPost} from "../actions";
 
 var moment = require("moment");
 
@@ -30,10 +31,24 @@ class ThreadPanel extends Component {
 		this.props.votePost({ postUid, uid, newVoteTotal, userVote, coinUid });
 	};
 
+	followPost = postUid => {
+		const { uid } = this.props.user;
+		this.props.followPost({ uid, postUid });
+	};
+
+	unfollowPost = postUid => {
+		const { uid } = this.props.user;
+		this.props.unfollowPost({ uid, postUid });
+	};
+
 	render() {
-		const { onThreadClick, post, userVotes, user } = this.props;
-		console.log(post)
-		const userVotesCheck = userVotes ? userVotes : []
+		const { onThreadClick, post, userVotes, user, followedPosts } = this.props;
+		var postCheck = followedPosts
+			? followedPosts.filter(function(followedPost) {
+					return post.uid === followedPost.uid;
+				})
+			: null;
+		const userVotesCheck = userVotes ? userVotes : [];
 		return (
 			<div
 				key={post.uid}
@@ -92,7 +107,7 @@ class ThreadPanel extends Component {
 							<p>{post.postComment}</p>
 						</div>
 						<div className="post-row-right">
-							<p>{moment(post.postDate, 'YYYYMMDDhhmm a').fromNow()}</p>
+							<p>{moment(post.postDate, "YYYYMMDDhhmm a").fromNow()}</p>
 						</div>
 					</div>
 					<div className="post-row">
@@ -102,9 +117,16 @@ class ThreadPanel extends Component {
 					</div>
 				</div>
 				<div className="follow">
-
-					 <Flag className="follow-flag"/>
-
+					{user ? (
+						postCheck.length > 0 ? (
+							<Flag style={{ color:' red' }} onClick={()=> this.unfollowPost(post.uid)} />
+						) : (
+							<Flag
+								onClick={() => this.followPost(post.uid)}
+								className="follow-flag"
+							/>
+						)
+					) : null}
 				</div>
 			</div>
 		);
@@ -113,8 +135,10 @@ class ThreadPanel extends Component {
 
 const mapStateToProps = state => {
 	const { user } = state.auth;
-
-	return { user };
+	const followedPosts = _.map(state.followedPosts, (val, uid) => {
+		return { ...val, uid };
+	});
+	return { user, followedPosts };
 };
 
-export default connect(mapStateToProps, { votePost })(ThreadPanel);
+export default connect(mapStateToProps, { votePost, followPost, unfollowPost })(ThreadPanel);

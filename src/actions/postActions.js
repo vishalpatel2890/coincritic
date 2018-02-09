@@ -4,7 +4,8 @@ import {
   ADD_COMMENT_TO_POST,
   FETCH_COMMENTS_FOR_POST_SUCCESS,
   VOTE_POST,
-  FETCH_POSTS_USER_VOTES
+  FETCH_POSTS_USER_VOTES,
+  FETCH_POST_DETAILS
 } from "../constants/constants";
 import firebase from "firebase";
 
@@ -91,6 +92,18 @@ export const fetchPostsUserVotes = (userUid) => {
       .ref("/votesByUser/" + userUid )
       .on("value", snapshot => {
         dispatch({ type: FETCH_POSTS_USER_VOTES, payload: snapshot.val() });
+      });
+  }
+}
+
+export const fetchPostDetails = (postUid, coinUid) => {
+
+  return dispatch => {
+    firebase
+      .database()
+      .ref("/postsByCoin/" + coinUid + "/" + postUid)
+      .on("value", snapshot => {
+        dispatch({ type: FETCH_POST_DETAILS, payload: snapshot.val() });
       });
   }
 }

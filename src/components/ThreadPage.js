@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input, Button, Form, Collapse } from "antd";
 import _ from "lodash";
+import Flag from 'material-ui-icons/Flag';
 
 import Comments from "./Comments";
 import PanelComponent from "./PanelComponent";
 import {
 	addCommentToPost,
 	fetchCommentsForPost,
-	fetchPostsForCoin
+	fetchPostDetails,
+	followPost,
+	unfollowPost
 } from "../actions";
 
 const FormItem = Form.Item;
@@ -24,6 +27,7 @@ class ThreadPage extends Component {
 
 	componentWillMount() {
 		this.props.fetchCommentsForPost(this.props.postUid);
+		this.props.fetchPostDetails(this.props.postUid, this.props.coinUid);
 	}
 
 	handlePostChange = value => {
@@ -46,30 +50,91 @@ class ThreadPage extends Component {
 		this.setState({ comment: "", commentCount: commentCount + 1 });
 	};
 
+	followPost = postUid => {
+		const { uid } = this.props.user;
+		this.props.followPost({ uid, postUid });
+	};
+
+	unfollowPost = postUid => {
+		const { uid } = this.props.user;
+		this.props.unfollowPost({ uid, postUid });
+	};
+
 	render() {
-		const { commentsForPost, postUid, coinUid, commentCount } = this.props;
-		console.log(commentsForPost);
+		const {
+			commentsForPost,
+			postUid,
+			coinUid,
+			commentCount,
+			postDetails,
+			followedPosts,
+			user
+		} = this.props;
+		var postCheck = followedPosts
+			? followedPosts.filter(function(followedPost) {
+					return postUid === followedPost.uid;
+				})
+			: null;
 		return (
 			<div className="thread">
 				<div className="thread-row">
-					<div className="post-comment">
-						<p>Comment</p>
-					</div>
-					<div className="post">
-						<Form onSubmit={this.submitComment} className="review-form">
-							<FormItem>
-								<TextArea
-									onChange={e => this.handlePostChange(e.target.value)}
-									placeholder={`Write your review of ${this.props.coinName}`}
-									value={this.state.comment}
-									rows={8}
-									style={{ overflowX: "hidden", borderRadius: 4 }}
-								/>
-							</FormItem>
-							<FormItem>
-								<Button htmlType="submit">Post</Button>
-							</FormItem>
-						</Form>
+					<div className="thread-header">
+						<div className="post-comment">
+							<div className="vote-count">x</div>
+
+							<div style={{ display: "flex", flexDirection: "column" }}>
+								{postDetails ? (
+									<div>
+										<h1>{postDetails.postTitle}</h1>
+										<p>{postDetails.postComment}</p>
+										<p>{postDetails.commentCount} comments</p>
+									</div>
+								) : (
+									<div>
+										<p>loading</p>
+									</div>
+								)}
+							</div>
+							<div className="post-row-right">
+								<p>Submitted by: {postDetails.displayName}</p>
+								<p>osdos</p>
+							</div>
+							<div className="follow">
+
+							{user ? (
+							 postCheck.length > 0 ? (
+								 <Flag style={{ color:' red' }} onClick={()=> this.unfollowPost(postUid)} />
+							 ) : (
+								 <Flag
+									 onClick={() => this.followPost(postUid)}
+									 className="follow-flag"
+								 />
+							 )
+						 ) : null}
+
+							</div>
+						</div>
+						<div className="post-reply">
+							<Form onSubmit={this.submitComment} className="review-form">
+								<FormItem>
+									<TextArea
+										onChange={e => this.handlePostChange(e.target.value)}
+										placeholder={`Enter your comment`}
+										value={this.state.comment}
+										rows={8}
+										style={{ overflowX: "hidden", borderRadius: 4 }}
+									/>
+								</FormItem>
+								<FormItem>
+
+									{user ?
+									<Button htmlType="submit">Post</Button>
+									:
+									<Button>Login To Leave A Comment</Button>
+								}
+								</FormItem>
+							</Form>
+						</div>
 					</div>
 				</div>
 				<Collapse
@@ -116,15 +181,21 @@ class ThreadPage extends Component {
 }
 
 const mapStateToProps = state => {
-	const { currentCoin } = state;
+	const { currentCoin, postDetails } = state;
 	const { user } = state.auth;
 	const commentsForPost = _.map(state.commentsForPost, (val, uid) => {
 		return { ...val, uid };
 	});
-	return { currentCoin, commentsForPost, user };
+	const followedPosts = _.map(state.followedPosts, (val, uid) => {
+		return { ...val, uid };
+	});
+	return { currentCoin, commentsForPost, user, postDetails, followedPosts };
 };
 
 export default connect(mapStateToProps, {
 	addCommentToPost,
-	fetchCommentsForPost
+	fetchCommentsForPost,
+	fetchPostDetails,
+	followPost,
+	unfollowPost
 })(ThreadPage);
