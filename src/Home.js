@@ -37,17 +37,18 @@ class Home extends Component {
 								<Row gutter={48}>
 									{followedCoins.map((coin, idx) => (
 										<Col
+										key={idx}
 											style={{ width: "20%", marginBottom: "5em" }}
 											className="gutter-row"
 											span={4}
 										>
 											<Link
 												to={{
-													pathname: `coins/${coin.uid}`}}
+													pathname: `coins/${coin.coinUid}`}}
 													>
-												<img height="110" width="110" src={coin.coinURI} />
+												<img alt={coin.coinUid} height="110" width="110" src={coin.coinURI} />
 												<p style={{ marginTop: 16, fontWeight: "bold" }}>
-													{coin.uid}
+													{coin.coinUid}
 												</p>
 											</Link>
 										</Col>
@@ -83,7 +84,7 @@ const mapStateToProps = state => {
 		return { ...val, uid };
 	});
 	const { email, password, error, loading, user } = state.auth;
-	
+
 	return { email, password, error, loading, user, coins, followedCoins };
 };
 

@@ -28,7 +28,7 @@ class Admin extends Component {
 					<Field
 						component={FormInput}
 						type="text"
-						label="Coin URI"
+						label="Coin Image URL"
 						name="coin"
 					/>
 					<Button type="submit">Add Coin</Button>

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 
+
 import Home from "./Home";
 import Admin from "./Admin";
 import Coins from "./Coins"
 
 class Main extends Component {
+
 	render() {
 		return (
 			<main>
@@ -18,5 +20,7 @@ class Main extends Component {
 		);
 	}
 }
+
+
 
 export default Main;

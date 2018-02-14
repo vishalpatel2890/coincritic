@@ -72,7 +72,7 @@ export const fetchCommentsForPost = (postUid) => {
 
 export const votePost = ({postUid, uid, newVoteTotal, userVote, coinUid}) => {
   var updates = {};
-    updates["/postsByCoin/" + "/" + coinUid + "/" + postUid + "/votes"] = newVoteTotal;
+    updates["/postsByCoin/" + coinUid + "/" + postUid + "/votes"] = newVoteTotal;
     updates["/votesByUser/" + uid + "/" + postUid] = userVote;
     return dispatch => {
       firebase

@@ -12,7 +12,7 @@ export const addCoin = ({ name, coin }) => {
 			.database()
 			.ref("/coins")
       .child(name)
-      .set({'image': coin })
+      .set({'image': coin, team: 0, landscape: 0, whitepaper: 0, realworld: 0, roadmap: 0, reviewCount: 0 })
 			.then(() => {
 				dispatch({ type: ADD_COIN });
 			});

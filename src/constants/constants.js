@@ -36,3 +36,6 @@ export const ADD_COMMENT_TO_COMMENT = "add_comment_to_comment";
 export const FETCH_CHILD_COMMENTS_SUCCESS = "fetch_child_comments_success";
 export const VOTE_COMMENT = "vote_comment";
 export const FETCH_COMMENTS_USER_VOTES = "fetch_comments_user_votes";
+
+//Reviews
+export const ADD_REVIEW = "add_review"

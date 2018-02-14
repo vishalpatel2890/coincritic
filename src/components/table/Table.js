@@ -20,7 +20,7 @@ class Table extends Component {
 	coinFormatter(cell, row) {
 		return (
 			<Link to={{ pathname: `coins/${row.uid}` }}>
-				<img height="31" width="31" src={cell} />
+				<img alt={row.uid} height="31" width="31" src={cell} />
 			</Link>
 		);
 	}
@@ -37,8 +37,8 @@ class Table extends Component {
 
 	followFormatter(cell, row) {
 
-		var coinCheck = this.props.followedCoins.filter(function(coin){ return coin.uid === row.uid   })
-		console.log(coinCheck)
+		var coinCheck = this.props.followedCoins.filter(function(coin){ return coin.coinUid === row.uid   })
+
 		if (coinCheck.length === 0) {
 			return <p onClick={() => this.follow(row.image, row.uid)}>Follow</p>
 		} else {
@@ -48,7 +48,7 @@ class Table extends Component {
 	}
 
 	render() {
-		console.log(this.props.user);
+
 		return (
 			<BootstrapTable
 				data={this.props.data}

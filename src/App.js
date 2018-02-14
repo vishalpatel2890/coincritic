@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import firebase from "firebase";
 
+
 import Main from "./Main";
 
 class App extends Component {
-	componentWillMount() {
+
+	componentWillMount(state) {
 		const config = {
 			apiKey: "AIzaSyDswjCdV5xhNfZZnnexUoje5LEQxskTO2M",
 			authDomain: "coincritic.firebaseapp.com",
@@ -16,6 +18,7 @@ class App extends Component {
 		};
 
 		firebase.initializeApp(config);
+
 	}
 
 
@@ -30,4 +33,5 @@ class App extends Component {
 	}
 }
 
-export default withRouter(App);
+
+export default withRouter(App)

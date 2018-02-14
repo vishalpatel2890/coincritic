@@ -67,9 +67,9 @@ class ThreadForm extends Component {
 }
 
 const mapStateToProps = state => {
-	const { email, password, error, loading, user } = state.auth;
+	const { user } = state.auth;
 
-	return { email, password, error, loading, user };
+	return { user };
 };
 
 export default connect(mapStateToProps, {addPost})(ThreadForm);

@@ -4,7 +4,6 @@ import { Icon as IconA } from "antd";
 import Flag from "material-ui-icons/Flag";
 import _ from "lodash";
 
-import ThreadPage from "./ThreadPage";
 import { votePost, followPost, unfollowPost} from "../actions";
 
 var moment = require("moment");

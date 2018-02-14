@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Icon } from "antd";
-import _ from "lodash";
 
 import ThreadPage from "./ThreadPage";
 import ThreadPanel from "./ThreadPanel";
@@ -18,7 +16,7 @@ class Thread extends Component {
 	};
 
 	render() {
-		const { postsForCoin, coinUid, postsVotes, commentsVotes } = this.props;
+		const { postsForCoin, coinUid, postsVotes } = this.props;
 		return (
 			<div>
 				{this.state.thread ? (
@@ -48,8 +46,9 @@ class Thread extends Component {
 
 const mapStateToProps = state => {
 	const { user } = state.auth;
-	const { postsVotes, commentsVotes } = state.userVotes;
-	return { user, postsVotes, commentsVotes };
+
+	const { postsVotes, } = state.userVotes;
+	return { user, postsVotes };
 };
 
 export default connect(mapStateToProps, { votePost, fetchPostsUserVotes })(

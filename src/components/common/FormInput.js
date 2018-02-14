@@ -4,7 +4,7 @@ import TextField from "material-ui/TextField";
 
 class FormInput extends Component {
 	render() {
-		const { input, label, width, meta: { error, touched } } = this.props;
+		const { input, label, meta: { error, touched } } = this.props;
 
 		return (
 			<div>

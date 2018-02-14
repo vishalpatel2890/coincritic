@@ -4,11 +4,17 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import registerServiceWorker from "./registerServiceWorker";
 import configureStore from "./store/configureStore";
+import { saveState } from './localStorage'
 import "./index.css";
 import App from './App';
 
-const initialState = {};
-const store = configureStore(initialState);
+const store = configureStore()
+
+store.subscribe	(()=> {
+	saveState({
+		'auth': store.getState().auth
+	})
+})
 
 render(
 	<BrowserRouter>

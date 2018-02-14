@@ -7,7 +7,7 @@ import {
 	LOGIN_USER,
 	SIGNUP_USER,
 	FETCH_FOLLOWED_COINS_SUCCESS,
-  FETCH_FOLLOWED_POSTS_SUCCESS,
+	FETCH_FOLLOWED_POSTS_SUCCESS,
 	ADD_USERNAME_REF,
 	FETCH_POSTS_USER_VOTES,
 	FETCH_COMMENTS_USER_VOTES
@@ -32,11 +32,19 @@ export const loginUser = ({ email, password }) => {
 		dispatch({ type: LOGIN_USER });
 		firebase
 			.auth()
-			.signInWithEmailAndPassword(email, password)
-			.then(user => loginUserSuccess(dispatch, user))
+			.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+			.then(() => {
+				firebase
+					.auth()
+					.signInWithEmailAndPassword(email, password)
+					.then(user => loginUserSuccess(dispatch, user))
+					.catch(error => {
+						console.log(error.code);
+					});
+			})
 			.catch(error => {
 				console.log(error.code);
-			});
+			})
 	};
 };
 
@@ -100,4 +108,39 @@ const loginUserSuccess = (dispatch, user, registerUsername) => {
 		.on("value", snapshot => {
 			dispatch({ type: FETCH_FOLLOWED_POSTS_SUCCESS, payload: snapshot.val() });
 		});
+};
+
+export const reLoginUser = (user) => {
+	return dispatch => {
+		dispatch({
+			type: LOGIN_USER_SUCCESS,
+			payload: user
+		});
+
+
+	firebase
+		.database()
+		.ref("/coinsFollowedByUser/" + user.uid)
+		.on("value", snapshot => {
+			dispatch({ type: FETCH_FOLLOWED_COINS_SUCCESS, payload: snapshot.val() });
+		});
+	firebase
+		.database()
+		.ref("/votesByUser/" + user.uid)
+		.on("value", snapshot => {
+			dispatch({ type: FETCH_POSTS_USER_VOTES, payload: snapshot.val() });
+		});
+	firebase
+		.database()
+		.ref("/votesforCommentsByUser/" + user.uid)
+		.on("value", snapshot => {
+			dispatch({ type: FETCH_COMMENTS_USER_VOTES, payload: snapshot.val() });
+		});
+	firebase
+		.database()
+		.ref("/postsFollowedByUser/" + user.uid)
+		.on("value", snapshot => {
+			dispatch({ type: FETCH_FOLLOWED_POSTS_SUCCESS, payload: snapshot.val() });
+		});
+	}
 };

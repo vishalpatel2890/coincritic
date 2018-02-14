@@ -53,6 +53,14 @@ class CoinPage extends Component {
 		const { currentCoin, postsForCoin, followedCoins, user } = this.props;
 		const { review, thread } = this.state;
 		const currentCoinUid = this.props.match.params.coin;
+		const {team, whitepaper, roadmap, landscape, realworld, reviewCount} = currentCoin;
+		var teamAvg = team/reviewCount
+		var whitepaperAvg = whitepaper/reviewCount
+		var roadmapAvg = roadmap/reviewCount
+		var landscapeAvg = landscape/reviewCount
+		var realworldAvg = realworld/reviewCount
+		var totalAvg = ((team + whitepaper + roadmap + landscape + realworld)/5)/2
+		var roundedTotalAvg = Math.round(totalAvg * 2) / 2;
 		var coinCheck = followedCoins ? followedCoins.filter(function(coin){ return coin.uid === currentCoinUid   }) : null
 		return (
 			<div className="App">
@@ -60,7 +68,7 @@ class CoinPage extends Component {
 				<div className="coin-box">
 					<div className="coin-box-left">
 						<div className="coin-box-left-image">
-							<img height="154" width="154" src={currentCoin.image} />
+							<img alt={currentCoin.coinUid} height="154" width="154" src={currentCoin.image} />
 						</div>
 						<div className="coin-box-left-website">
 							<p>{this.props.match.params.coin}</p>
@@ -97,7 +105,7 @@ class CoinPage extends Component {
 									character={<Icon type="star" />}
 									disabled
 									allowHalf
-									defaultValue={2.5}
+									value={roundedTotalAvg}
 								/>
 							</div>
 						</div>
@@ -109,42 +117,72 @@ class CoinPage extends Component {
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
 							<div className="coin-box-right-reviews-breakdown-left">
-								REVIEWS
+								Team
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
-								Read all 24 reviews
+							<Rate
+								style={{ fontSize: 20 }}
+								character={<Icon type="star" />}
+								disabled
+								allowHalf
+								value={teamAvg}
+							/>
 							</div>
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
 							<div className="coin-box-right-reviews-breakdown-left">
-								REVIEWS
+								White Paper
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
-								Read all 24 reviews
+							<Rate
+								style={{ fontSize: 20 }}
+								character={<Icon type="star" />}
+								disabled
+								allowHalf
+								value={whitepaperAvg}
+							/>
 							</div>
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
 							<div className="coin-box-right-reviews-breakdown-left">
-								REVIEWS
+								Roadmap
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
-								Read all 24 reviews
+							<Rate
+								style={{ fontSize: 20 }}
+								character={<Icon type="star" />}
+								disabled
+								allowHalf
+								value={roadmapAvg}
+							/>
 							</div>
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
 							<div className="coin-box-right-reviews-breakdown-left">
-								REVIEWS
+								Competetive Landscape
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
-								Read all 24 reviews
+							<Rate
+								style={{ fontSize: 20 }}
+								character={<Icon type="star" />}
+								disabled
+								allowHalf
+								value={landscapeAvg}
+							/>
 							</div>
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
 							<div className="coin-box-right-reviews-breakdown-left">
-								REVIEWS
+								Real World Application
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
-								Read all 24 reviews
+							<Rate
+								style={{ fontSize: 20 }}
+								character={<Icon type="star" />}
+								disabled
+								allowHalf
+								value={realworldAvg}
+							/>
 							</div>
 						</div>
 					</div>
@@ -152,7 +190,7 @@ class CoinPage extends Component {
 				{review === false && thread === false ? (
 					<Thread coinUid={this.props.match.params.coin} postsForCoin={postsForCoin} />
 				) : review === true && thread === false ? (
-					<ReviewForm handleReviewClose={this.handleReviewClose} coinName={currentCoin.name} />
+					<ReviewForm currentCoin={currentCoin} handleReviewClose={this.handleReviewClose} coinName={currentCoin.name} coinUid={this.props.match.params.coin}/>
 				) : (
 					<ThreadForm handleThreadClose={this.handleThreadClose} coinUid={this.props.match.params.coin} />
 				)}

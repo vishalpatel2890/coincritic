@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Badge from "material-ui/Badge";
-import IconButton from "material-ui/IconButton";
-import MailOutline from "material-ui-icons/MailOutline";
-import { Input, Icon, Rate, Avatar, Modal, Button, Form } from "antd";
+import { Input, Icon, Avatar, Modal, Button, Form } from "antd";
 import firebase from "firebase";
 
 import logo from "./logo.svg";
@@ -12,7 +9,8 @@ import {
 	emailChanged,
 	passwordChanged,
 	loginUser,
-	signUpUser
+	signUpUser,
+	reLoginUser
 } from "./actions";
 
 const FormItem = Form.Item;
@@ -34,6 +32,13 @@ class Header extends Component {
 		registerUsernameValidateLength: ""
 	};
 
+	componentWillMount(){
+
+		if (this.props.user) {
+			this.props.reLoginUser(this.props.user)
+		}
+	}
+
 	componentDidUpdate(prevProps, prevState) {
 		const {
 			registerPassword,
@@ -42,7 +47,7 @@ class Header extends Component {
 			registerEmail,
 			registerEmailCheck
 		} = this.state;
-		if (prevState.registerPassword != registerPassword) {
+		if (prevState.registerPassword !== registerPassword) {
 			var regex = /^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{8,}$/;
 
 			if (regex.test(registerPassword)) {
@@ -51,7 +56,7 @@ class Header extends Component {
 				this.setState({ registerPasswordValidate: "error" });
 			}
 			if (registerVerifyPassword) {
-				if (registerVerifyPassword == registerPassword) {
+				if (registerVerifyPassword === registerPassword) {
 					this.setState({ registerVerifyPasswordValidate: "success" });
 				} else {
 					this.setState({ registerVerifyPasswordValidate: "error" });
@@ -59,15 +64,15 @@ class Header extends Component {
 			}
 		}
 
-		if (prevState.registerVerifyPassword != registerVerifyPassword) {
-			if (registerVerifyPassword == registerPassword) {
+		if (prevState.registerVerifyPassword !== registerVerifyPassword) {
+			if (registerVerifyPassword === registerPassword) {
 				this.setState({ registerVerifyPasswordValidate: "success" });
 			} else {
 				this.setState({ registerVerifyPasswordValidate: "error" });
 			}
 		}
 
-		if (prevState.registerUsername != registerUsername) {
+		if (prevState.registerUsername !== registerUsername) {
 			if (registerUsername.length >= 6) {
 				const userRef = firebase
 					.database()
@@ -90,7 +95,7 @@ class Header extends Component {
 			}
 		}
 
-		if (prevState.registerEmail != registerEmail) {
+		if (prevState.registerEmail !== registerEmail) {
 			var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (regex.test(registerEmail)) {
 				firebase.auth().fetchProvidersForEmail(registerEmail)
@@ -99,7 +104,7 @@ class Header extends Component {
 				this.setState({ registerEmailValidate: "error" });
 			}
 		}
-		if (prevState.registerEmailCheck != registerEmailCheck) {
+		if (prevState.registerEmailCheck !== registerEmailCheck) {
 			if (registerEmailCheck.length > 0) { this.setState({registerEmailValidate: "error"})}
 			else {this.setState({registerEmailValidate: "success"})}
 		}
@@ -309,5 +314,6 @@ export default connect(mapStateToProps, {
 	emailChanged,
 	passwordChanged,
 	loginUser,
+	reLoginUser,
 	signUpUser
 })(Header);
