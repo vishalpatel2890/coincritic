@@ -110,6 +110,13 @@
 	text-transform: uppercase;
 }
 
+.react-bs-table table {
+  margin-bottom: 0;
+  table-layout: auto !important;
+  width: 100%;
+
+}
+
 .tr-string-example {
 	border-bottom: 1px solid black;
 	width: 100%;
@@ -123,6 +130,14 @@
 
 .coin-img-td {
 	width: 5%;
+}
+
+.coin-name-td {
+	width: 15%;
+}
+
+.coin-rating-td {
+	width: 25%;
 }
 
 .App-title {
@@ -196,35 +211,34 @@
 }
 
 .coin-box-right-reviews {
-  display: flex;
-  flex: 1;
-  padding-top: 21px;
-  padding-bottom: 21px;
+	display: flex;
+	flex: 1;
+	padding-top: 21px;
+	padding-bottom: 21px;
 }
 
 .coin-box-right-reviews-left {
-  flex: 0.4;
-  padding-left: 10px;
+	flex: 0.4;
+	padding-left: 10px;
 }
 
 .coin-box-right-reviews-right {
-  flex:0.6;
+	flex: 0.6;
 }
 
 .coin-box-right-reviews-breakdown {
-  display: flex;
-  flex: 1;
+	display: flex;
+	flex: 1;
 }
 
 .coin-box-right-reviews-breakdown-left {
-  flex: 0.4;
-  padding-left: 10px;
+	flex: 0.4;
+	padding-left: 10px;
 }
 
 .coin-box-right-reviews-breakdown-right {
-  flex:0.6;
+	flex: 0.6;
 }
-
 
 .review-box {
 	display: flex;
@@ -233,7 +247,7 @@
 	padding: 10px;
 }
 
-.review-form{
+.review-form {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
@@ -244,7 +258,6 @@
 .review-rating {
 	display: flex !important;
 	flex: 1;
-
 }
 
 .review-rating-stars {
@@ -259,10 +272,10 @@
 }
 
 .ant-form-item {
-margin-bottom: 0px;
+	margin-bottom: 0px;
 }
 
-.review-bottom-line{
+.review-bottom-line {
 	display: inline;
 }
 
@@ -271,7 +284,6 @@ margin-bottom: 0px;
 	background: #f4f4f4;
 	border-radius: 4px;
 	flex-direction: column;
-
 }
 
 .thread-row {
@@ -283,13 +295,13 @@ margin-bottom: 0px;
 	border-bottom: 3px solid white;
 }
 
-.thread-header{
+.thread-header {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
 }
 
-.vote-count{
+.vote-count {
 	flex: none;
 	align-self: center;
 	padding-right: 2em;
@@ -306,7 +318,7 @@ margin-bottom: 0px;
 	flex-direction: column;
 }
 
-.post-comment{
+.post-comment {
 	display: flex;
 	padding-left: 2em;
 	padding-top: 1em;
@@ -346,35 +358,171 @@ margin-bottom: 0px;
 	border: none !important;
 }
 
-.follow{
+.follow {
 	flex: none;
-	padding-left: .2em;
+	padding-left: 0.2em;
 	align-self: center;
 }
 
-.follow-flag{
+.follow-flag {
 	font-size: 1.2em;
 }
 
-.follow-flag:hover{
+.follow-flag:hover {
 	font-size: 1.2em;
-	color: red	
+	color: red;
 }
-
 
 .header-row {
 	display: flex;
 }
 
 .header-buttons {
-	flex: .05;
+	flex: 0.05;
 	height: 80px;
 }
 
 .header-content {
-	flex: .9;
+	flex: 0.9;
 }
 
 .header-reply {
-	flex: .05;
+	flex: 0.05;
+}
+
+.review {
+	display: flex;
+	background: #f4f4f4;
+	border-radius: 4px;
+	flex-direction: column;
+}
+
+.review-row {
+	display: flex;
+	padding-left: 2em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-right: 2em;
+	border-bottom: 3px solid white;
+}
+
+.review-avatar {
+	width: 5%;
+	margin: 0.5vw;
+}
+
+.review-left {
+	display: flex;
+	flex-direction: column;
+	width: 65%;
+}
+
+.review-left-username {
+	justify-content: flex-start;
+	margin: 0.5vw;
+	margin-bottom: 0.1vw;
+}
+
+.review-left-date {
+	justify-content: flex-start;
+	margin: 0.5vw;
+	margin-top: 0.1vw;
+}
+
+.review-left-review {
+	justify-content: flex-start;
+	margin: 0.5vw;
+}
+
+.review-right {
+	display: flex;
+	flex-direction: column;
+	width: 30%;
+	margin: .5vw;
+	margin-left: 5vw;
+	margin-right: 0;
+}
+
+.review-right-overall {
+	display: flex;
+}
+
+.review-right-overall-label {
+width: 40%;
+}
+
+.review-right-overall-rating {
+	justify-content: flex-end;
+}
+
+.review-right-breakdown {
+	display: flex;
+}
+
+.review-right-breakdown-label {
+	width: 40%;
+}
+
+.review-right-breakdown-rating {
+	justify-content: flex-end;
+}
+
+
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+  width: 100%;
+  height: 30px;
+  padding: 10px 20px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.react-autosuggest__input--focused {
+  outline: none;
+}
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  width: 100%;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd;
 }

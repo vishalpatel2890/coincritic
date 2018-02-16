@@ -10,7 +10,9 @@ import {
 	FETCH_FOLLOWED_POSTS_SUCCESS,
 	ADD_USERNAME_REF,
 	FETCH_POSTS_USER_VOTES,
-	FETCH_COMMENTS_USER_VOTES
+	FETCH_COMMENTS_USER_VOTES,
+	FETCH_RATINGS_SUCCESS,
+	SIGNOUT_USER
 } from "../constants/constants";
 
 export const emailChanged = text => {
@@ -44,7 +46,7 @@ export const loginUser = ({ email, password }) => {
 			})
 			.catch(error => {
 				console.log(error.code);
-			})
+			});
 	};
 };
 
@@ -108,39 +110,62 @@ const loginUserSuccess = (dispatch, user, registerUsername) => {
 		.on("value", snapshot => {
 			dispatch({ type: FETCH_FOLLOWED_POSTS_SUCCESS, payload: snapshot.val() });
 		});
+	firebase
+		.database()
+		.ref("/ratingsByUser/" + user.uid)
+		.on("value", snapshot => {
+			dispatch({ type: FETCH_RATINGS_SUCCESS, payload: snapshot.val() });
+		});
 };
 
-export const reLoginUser = (user) => {
+export const reLoginUser = user => {
 	return dispatch => {
 		dispatch({
 			type: LOGIN_USER_SUCCESS,
 			payload: user
 		});
 
-
-	firebase
-		.database()
-		.ref("/coinsFollowedByUser/" + user.uid)
-		.on("value", snapshot => {
-			dispatch({ type: FETCH_FOLLOWED_COINS_SUCCESS, payload: snapshot.val() });
-		});
-	firebase
-		.database()
-		.ref("/votesByUser/" + user.uid)
-		.on("value", snapshot => {
-			dispatch({ type: FETCH_POSTS_USER_VOTES, payload: snapshot.val() });
-		});
-	firebase
-		.database()
-		.ref("/votesforCommentsByUser/" + user.uid)
-		.on("value", snapshot => {
-			dispatch({ type: FETCH_COMMENTS_USER_VOTES, payload: snapshot.val() });
-		});
-	firebase
-		.database()
-		.ref("/postsFollowedByUser/" + user.uid)
-		.on("value", snapshot => {
-			dispatch({ type: FETCH_FOLLOWED_POSTS_SUCCESS, payload: snapshot.val() });
-		});
-	}
+		firebase
+			.database()
+			.ref("/coinsFollowedByUser/" + user.uid)
+			.on("value", snapshot => {
+				dispatch({
+					type: FETCH_FOLLOWED_COINS_SUCCESS,
+					payload: snapshot.val()
+				});
+			});
+		firebase
+			.database()
+			.ref("/votesByUser/" + user.uid)
+			.on("value", snapshot => {
+				dispatch({ type: FETCH_POSTS_USER_VOTES, payload: snapshot.val() });
+			});
+		firebase
+			.database()
+			.ref("/votesforCommentsByUser/" + user.uid)
+			.on("value", snapshot => {
+				dispatch({ type: FETCH_COMMENTS_USER_VOTES, payload: snapshot.val() });
+			});
+		firebase
+			.database()
+			.ref("/postsFollowedByUser/" + user.uid)
+			.on("value", snapshot => {
+				dispatch({
+					type: FETCH_FOLLOWED_POSTS_SUCCESS,
+					payload: snapshot.val()
+				});
+			});
+		firebase
+			.database()
+			.ref("/ratingsByUser/" + user.uid)
+			.on("value", snapshot => {
+				dispatch({ type: FETCH_RATINGS_SUCCESS, payload: snapshot.val() });
+			});
+	};
 };
+
+export const signOutUser = () => {
+	return dispatch => {
+		dispatch({type: SIGNOUT_USER})
+	}
+}

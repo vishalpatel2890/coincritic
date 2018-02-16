@@ -5,6 +5,7 @@ import "../../App.css";
 import { connect } from "react-redux";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import {Rate, Icon} from "antd"
 
 import { followCoin, unfollowCoin } from "../../actions";
 
@@ -23,6 +24,21 @@ class Table extends Component {
 				<img alt={row.uid} height="31" width="31" src={cell} />
 			</Link>
 		);
+	}
+
+	reviewFormmater(cell, row) {
+		const {team, whitepaper, roadmap, landscape, realworld, reviewCount} = row;
+		var totalAvg = ((team + whitepaper + roadmap + landscape + realworld)/5)/reviewCount
+		var roundedTotalAvg = Math.round(totalAvg * 2) / 2;
+		return(
+			<Rate
+				style={{ fontSize: 14 }}
+				character={<Icon type="star" />}
+				disabled
+				allowHalf
+				value={roundedTotalAvg}
+			/>
+		)
 	}
 
 	follow = (coinURI, coinUid) => {
@@ -48,7 +64,7 @@ class Table extends Component {
 	}
 
 	render() {
-
+		console.log(this.props.data)
 		return (
 			<BootstrapTable
 				data={this.props.data}
@@ -60,11 +76,14 @@ class Table extends Component {
 					dataField="image"
 					dataFormat={this.coinFormatter}
 					columnClassName="coin-img-td"
+					className="coin-img-td"
 					isKey
 				>
 					Name
 				</TableHeaderColumn>
-				<TableHeaderColumn dataField="uid" dataFormat={this.nameFormatter} />
+				<TableHeaderColumn dataField="uid" className="coin-name-td" columnName="coin-name-td" columnClassName="coin-name-td" dataFormat={this.nameFormatter}>{''}</TableHeaderColumn>
+				<TableHeaderColumn dataField="reviewAvg" className="coin-rating-td" columnClassName="coin-rating-td" dataFormat={this.reviewFormmater}>CoinCritic Community Rating</TableHeaderColumn>
+				<TableHeaderColumn dataField="reviewCount" className="coin-rating-td" columnClassName="coin-rating-td">Reviews</TableHeaderColumn>
 				<TableHeaderColumn
 					dataField="follow"
 					dataFormat={this.followFormatter.bind(this)}

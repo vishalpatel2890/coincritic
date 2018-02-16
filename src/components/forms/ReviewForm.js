@@ -2,20 +2,35 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input, Rate, Button, Form } from "antd";
 
-import { addReview } from "../../actions";
+import { addReview, updateReview } from "../../actions";
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
 class ReviewForm extends Component {
 	state = {
-		team: "",
-		whitepaper: "",
-		roadmap: "",
-		landscape: "",
-		realworld: "",
+		team: 0,
+		whitepaper: 0,
+		roadmap: 0,
+		landscape: 0,
+		realworld: 0,
 		review: ""
 	};
+
+	componentWillMount() {
+		const { reviewCheck } = this.props;
+
+		if (reviewCheck.length > 0) {
+			this.setState({
+				team: reviewCheck[0].team,
+				whitepaper: reviewCheck[0].whitepaper,
+				roadmap: reviewCheck[0].roadmap,
+				landscape: reviewCheck[0].landscape,
+				realworld: reviewCheck[0].realworld,
+				review: reviewCheck[0].review
+			});
+		}
+	}
 
 	handleTeamChange = value => {
 		this.setState({ team: value });
@@ -41,7 +56,6 @@ class ReviewForm extends Component {
 	};
 
 	onSubmitReview = reviewAvg => {
-
 		const { uid, displayName } = this.props.user;
 		const { coinUid, currentCoin } = this.props;
 		const {
@@ -52,14 +66,13 @@ class ReviewForm extends Component {
 			realworld,
 			review
 		} = this.state;
-		const newTeam = currentCoin.team + team
+		const newTeam = currentCoin.team + team;
 		const newWhitepaper = currentCoin.whitepaper + whitepaper;
 		const newRoadmap = currentCoin.roadmap + roadmap;
-		const newLandscape = landscape;
+		const newLandscape = currentCoin.landscape + landscape;
 		const newRealworld = currentCoin.realworld + realworld;
 		const newReviewAvg = currentCoin.reviewAvg + reviewAvg;
 		const newReviewCount = currentCoin.reviewCount + 1;
-		console.log(newLandscape)
 		this.props.addReview({
 			newTeam,
 			newWhitepaper,
@@ -68,10 +81,60 @@ class ReviewForm extends Component {
 			newRealworld,
 			newReviewAvg,
 			newReviewCount,
-      review,
+			team,
+			whitepaper,
+			roadmap,
+			landscape,
+			realworld,
+			reviewAvg,
+			review,
 			coinUid,
 			displayName,
 			uid
+		});
+	};
+
+	onUpdateReview = (e, reviewAvg) => {
+		e.preventDefault();
+		const { uid, displayName } = this.props.user;
+		const { coinUid, currentCoin } = this.props;
+		const {
+			team,
+			whitepaper,
+			roadmap,
+			landscape,
+			realworld,
+			review
+		} = this.state;
+		const reviewObj = this.props.reviewCheck[0];
+		const reviewKey = reviewObj.uid;
+		const newTeam = currentCoin.team - reviewObj.team + team;
+		const newWhitepaper =
+			currentCoin.whitepaper - reviewObj.whitepaper + whitepaper;
+		const newRoadmap = currentCoin.roadmap - reviewObj.roadmap + roadmap;
+		const newLandscape =
+			currentCoin.landscape - reviewObj.landscape + landscape;
+		const newRealworld =
+			currentCoin.realworld - reviewObj.realworld + realworld;
+		const newReviewAvg =
+			currentCoin.reviewAvg - reviewObj.reviewAvg + reviewAvg;
+
+		this.props.updateReview({
+			newTeam,
+			newWhitepaper,
+			newRoadmap,
+			newLandscape,
+			newRealworld,
+			newReviewAvg,
+			team,
+			whitepaper,
+			roadmap,
+			landscape,
+			realworld,
+			reviewAvg,
+			coinUid,
+			uid,
+			reviewKey
 		});
 	};
 
@@ -84,11 +147,23 @@ class ReviewForm extends Component {
 				this.state.realworld) /
 			5;
 		const reviewAvg = Math.round(x * 2) / 2;
-		console.log(this.props.currentCoin);
+		const {
+			team,
+			whitepaper,
+			roadmap,
+			landscape,
+			realworld,
+			review
+		} = this.state;
+		const { reviewCheck } = this.props;
 		return (
 			<div className="review-box">
 				<Form
-					onSubmit={() => this.onSubmitReview(reviewAvg)}
+					onSubmit={
+						reviewCheck.length > 0
+							? e => this.onUpdateReview(e, reviewAvg)
+							: () => this.onSubmitReview(reviewAvg)
+					}
 					className="review-form"
 				>
 					<FormItem>
@@ -97,6 +172,7 @@ class ReviewForm extends Component {
 							placeholder={`Write your review of ${this.props.coinName}`}
 							rows={8}
 							style={{ overflowX: "hidden", borderRadius: 4 }}
+							value={review}
 						/>,
 					</FormItem>
 					<div className="review-rating">
@@ -106,6 +182,7 @@ class ReviewForm extends Component {
 								onChange={this.handleTeamChange}
 								style={{ fontSize: 40 }}
 								allowHalf
+								value={team}
 							/>
 						</FormItem>
 					</div>
@@ -116,6 +193,7 @@ class ReviewForm extends Component {
 								onChange={this.handleWhitepaperChange}
 								style={{ fontSize: 40 }}
 								allowHalf
+								value={whitepaper}
 							/>
 						</FormItem>
 					</div>
@@ -126,6 +204,7 @@ class ReviewForm extends Component {
 								onChange={this.handleRoadmapChange}
 								style={{ fontSize: 40 }}
 								allowHalf
+								value={roadmap}
 							/>
 						</FormItem>
 					</div>
@@ -136,6 +215,7 @@ class ReviewForm extends Component {
 								onChange={this.handleLandscapeChange}
 								style={{ fontSize: 40 }}
 								allowHalf
+								value={landscape}
 							/>
 						</FormItem>
 					</div>
@@ -146,6 +226,7 @@ class ReviewForm extends Component {
 								onChange={this.handleRealworldChange}
 								style={{ fontSize: 40 }}
 								allowHalf
+								value={realworld}
 							/>
 						</FormItem>
 					</div>
@@ -157,7 +238,11 @@ class ReviewForm extends Component {
 							<Rate style={{ fontSize: 40 }} allowHalf value={reviewAvg} />
 						</FormItem>
 						<FormItem>
-							<Button htmlType="submit">Submit Review</Button>
+							{reviewCheck.length > 0 ? (
+								<Button htmlType="submit">Update Review</Button>
+							) : (
+								<Button htmlType="submit">Submit Review</Button>
+							)}
 						</FormItem>
 						<FormItem>
 							<Button onClick={this.props.handleReviewClose}>Cancel</Button>
@@ -175,4 +260,6 @@ const mapStateToProps = state => {
 	return { user };
 };
 
-export default connect(mapStateToProps, { addReview })(ReviewForm);
+export default connect(mapStateToProps, { addReview, updateReview })(
+	ReviewForm
+);

@@ -11,6 +11,7 @@ export const LOGIN_USER_FAIL = "login_user_failed";
 export const LOGIN_USER = "login_user";
 export const SIGNUP_USER = "signup_user";
 export const ADD_USERNAME_REF = "add_username_ref";
+export const SIGNOUT_USER = "signout_user";
 
 //User
 export const FOLLOW_COIN = "follow_coin";
@@ -39,3 +40,6 @@ export const FETCH_COMMENTS_USER_VOTES = "fetch_comments_user_votes";
 
 //Reviews
 export const ADD_REVIEW = "add_review"
+export const FETCH_COINS_REVIEWS_SUCCESS = "fetch_coins_reviews_success"
+export const FETCH_RATINGS_SUCCESS = "fetch_ratings_success"
+export const UPDATE_REVIEW = "update_review"

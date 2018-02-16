@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Input, Icon, Avatar, Modal, Button, Form } from "antd";
 import firebase from "firebase";
+import _ from "lodash"
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -10,8 +12,11 @@ import {
 	passwordChanged,
 	loginUser,
 	signUpUser,
-	reLoginUser
+	reLoginUser,
+	signOutUser,
+	fetchCoins
 } from "./actions";
+import Autosuggest from "react-autosuggest";
 
 const FormItem = Form.Item;
 
@@ -29,13 +34,15 @@ class Header extends Component {
 		registerUsername: "",
 		registerUsernameValidate: "",
 		registerUsernameValidateUnique: "",
-		registerUsernameValidateLength: ""
+		registerUsernameValidateLength: "",
+		value: "",
+		suggestions: []
 	};
 
-	componentWillMount(){
-
+	componentWillMount() {
+		this.props.fetchCoins();
 		if (this.props.user) {
-			this.props.reLoginUser(this.props.user)
+			this.props.reLoginUser(this.props.user);
 		}
 	}
 
@@ -98,15 +105,20 @@ class Header extends Component {
 		if (prevState.registerEmail !== registerEmail) {
 			var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (regex.test(registerEmail)) {
-				firebase.auth().fetchProvidersForEmail(registerEmail)
-					.then(providers => this.setState({registerEmailCheck: providers}))
+				firebase
+					.auth()
+					.fetchProvidersForEmail(registerEmail)
+					.then(providers => this.setState({ registerEmailCheck: providers }));
 			} else {
 				this.setState({ registerEmailValidate: "error" });
 			}
 		}
 		if (prevState.registerEmailCheck !== registerEmailCheck) {
-			if (registerEmailCheck.length > 0) { this.setState({registerEmailValidate: "error"})}
-			else {this.setState({registerEmailValidate: "success"})}
+			if (registerEmailCheck.length > 0) {
+				this.setState({ registerEmailValidate: "error" });
+			} else {
+				this.setState({ registerEmailValidate: "success" });
+			}
 		}
 	}
 
@@ -146,7 +158,7 @@ class Header extends Component {
 	onRegister = e => {
 		e.preventDefault();
 
-		const { registerEmail, registerPassword, registerUsername } = this.state;
+		const { registerEmail, registerPassword, registerUsername} = this.state;
 		this.props.signUpUser({
 			registerEmail,
 			registerPassword,
@@ -156,32 +168,82 @@ class Header extends Component {
 		this.setState({ registerOpen: false });
 	};
 
+	escapeRegexCharacters(str) {
+		return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	}
+
+	getSuggestions(value) {
+		const escapedValue = this.escapeRegexCharacters(value.trim());
+
+		if (escapedValue === "") {
+			return [];
+		}
+
+		const regex = new RegExp("^" + escapedValue, "i");
+
+		return this.props.coins.filter(coin => regex.test(coin.uid));
+	}
+
+	getSuggestionValue(suggestion) {
+		return suggestion.uid	;
+	}
+
+	renderSuggestion(suggestion) {
+		return <Link to={`/coins/${suggestion.uid}`} replace={true}><span><img src={suggestion.image} height="31" width="31" style={{marginRight: "1em" }}/>
+						{suggestion.uid}
+					</span></Link>;
+	}
+
+	onChange = (event, { newValue, method }) => {
+		this.setState({
+			value: newValue
+		});
+	};
+
+	onSuggestionsFetchRequested = ({ value }) => {
+		this.setState({
+			suggestions: this.getSuggestions(value)
+		});
+	};
+
+	onSuggestionsClearRequested = () => {
+		this.setState({
+			suggestions: []
+		});
+	};
+
 	render() {
 		const { user } = this.props;
+		const { value, suggestions } = this.state
+		const inputProps = {
+      placeholder: "Type 'c'",
+      value,
+      onChange: this.onChange
+    };
+		console.log(this.props.coins)
 		return (
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
-				<Input
-					placeholder="search coins"
-					prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-					className="App-search"
-				/>
+				<Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
+        inputProps={inputProps} />
+
 
 				{user ? (
 					<div className="App-account">
 						<div className="App-user-star">
-							<div className="App-user">
-
-							</div>
+							<div className="App-user" />
 							<p style={{ marginBottom: 0 }}>{user.displayName}</p>
+							<p onClick={() => this.props.signOutUser()}>Sign Out</p>
 						</div>
 						<div className="App-avatar">
 							<Avatar size="large" icon="user" />
-
 						</div>
-						<div className="App-notification">
-
-						</div>
+						<div className="App-notification" />
 					</div>
 				) : (
 					<div className="App-account">
@@ -306,8 +368,11 @@ class Header extends Component {
 
 const mapStateToProps = state => {
 	const { email, password, error, loading, user } = state.auth;
+	const coins = _.map(state.coins, (val, uid) => {
+		return { ...val, uid };
+	});
 
-	return { email, password, error, loading, user };
+	return { email, password, error, loading, user, coins };
 };
 
 export default connect(mapStateToProps, {
@@ -315,5 +380,7 @@ export default connect(mapStateToProps, {
 	passwordChanged,
 	loginUser,
 	reLoginUser,
-	signUpUser
+	signUpUser,
+	signOutUser,
+	fetchCoins
 })(Header);

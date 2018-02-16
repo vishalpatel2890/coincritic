@@ -7,6 +7,7 @@ import Header from "./Header";
 import ReviewForm from "./components/forms/ReviewForm";
 import ThreadForm from "./components/forms/ThreadForm";
 import Thread from "./components/Thread";
+import ReviewPage from "./components/ReviewPage";
 import { fetchSingleCoin, fetchPostsForCoin, followCoin, unfollowCoin } from "./actions";
 
 class CoinPage extends Component {
@@ -15,9 +16,19 @@ class CoinPage extends Component {
 		this.props.fetchPostsForCoin(this.props.match.params.coin);
 	}
 
+	componentWillUpdate(nextProps, nextState){
+		console.log(this.props)
+		console.log(nextProps)
+		if (this.props.match.params.coin !== nextProps.match.params.coin){
+			this.props.fetchSingleCoin(nextProps.match.params.coin);
+			this.props.fetchPostsForCoin(nextProps.match.params.coin);
+		}
+	}
+
 	state = {
 		review: false,
-		thread: false
+		thread: false,
+		readReviews: false
 	};
 
 	handleReviewOpen = () => {
@@ -36,6 +47,14 @@ class CoinPage extends Component {
 		this.setState({ thread: false });
 	};
 
+	handleReadReviewsOpen = () => {
+		this.setState({ readReviews: true });
+	};
+
+	handleReadReviewsClose = () => {
+		this.setState({ readReviews: false });
+	};
+
 	follow = () => {
 		const userUid = this.props.user.uid;
 		const coinUid = this.props.match.params.coin
@@ -50,8 +69,8 @@ class CoinPage extends Component {
 	}
 
 	render() {
-		const { currentCoin, postsForCoin, followedCoins, user } = this.props;
-		const { review, thread } = this.state;
+		const { currentCoin, postsForCoin, followedCoins, reviewsByUser, user } = this.props;
+		const { review, thread, readReviews } = this.state;
 		const currentCoinUid = this.props.match.params.coin;
 		const {team, whitepaper, roadmap, landscape, realworld, reviewCount} = currentCoin;
 		var teamAvg = team/reviewCount
@@ -59,9 +78,11 @@ class CoinPage extends Component {
 		var roadmapAvg = roadmap/reviewCount
 		var landscapeAvg = landscape/reviewCount
 		var realworldAvg = realworld/reviewCount
-		var totalAvg = ((team + whitepaper + roadmap + landscape + realworld)/5)/2
+		var totalAvg = ((team + whitepaper + roadmap + landscape + realworld)/5)/reviewCount
 		var roundedTotalAvg = Math.round(totalAvg * 2) / 2;
 		var coinCheck = followedCoins ? followedCoins.filter(function(coin){ return coin.uid === currentCoinUid   }) : null
+		var reviewCheck = reviewsByUser ? reviewsByUser.filter(function(review) { return review.coinUid === currentCoinUid}) : null
+		console.log(reviewCheck)
 		return (
 			<div className="App">
 				<Header />
@@ -72,14 +93,22 @@ class CoinPage extends Component {
 						</div>
 						<div className="coin-box-left-website">
 							<p>{this.props.match.params.coin}</p>
-							{this.state.review === false && this.state.thread === false ? (
+							{review === false && thread === false && readReviews === false ? (
 								<div>
+									{user && reviewCheck.length > 0 ?
+									<Button
+									style={{ width: 125 }}
+									onClick={this.handleReviewOpen}>
+										Edit Review
+									</Button>
+									:
 									<Button
 										style={{ width: 125 }}
 										onClick={this.handleReviewOpen}
 									>
 										Write A Review
 									</Button>
+								}
 									<Button
 										style={{ width: 125, margin: 10 }}
 										onClick={this.handleThreadOpen}
@@ -112,7 +141,7 @@ class CoinPage extends Component {
 						<div className="coin-box-right-reviews">
 							<div className="coin-box-right-reviews-left">REVIEWS</div>
 							<div className="coin-box-right-reviews-right">
-								Read all 24 reviews
+								<p onClick={this.handleReadReviewsOpen}>Read all 24 reviews</p>
 							</div>
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
@@ -187,13 +216,16 @@ class CoinPage extends Component {
 						</div>
 					</div>
 				</div>
-				{review === false && thread === false ? (
+				{review === false && thread === false && readReviews === false ? (
 					<Thread coinUid={this.props.match.params.coin} postsForCoin={postsForCoin} />
-				) : review === true && thread === false ? (
-					<ReviewForm currentCoin={currentCoin} handleReviewClose={this.handleReviewClose} coinName={currentCoin.name} coinUid={this.props.match.params.coin}/>
-				) : (
+				) : review === true && thread === false && readReviews === false ? (
+					<ReviewForm reviewCheck={reviewCheck} currentCoin={currentCoin} handleReviewClose={this.handleReviewClose} coinName={currentCoin.name} coinUid={this.props.match.params.coin}/>
+				) : review === false && thread === true && readReviews === false ?
+				(
 					<ThreadForm handleThreadClose={this.handleThreadClose} coinUid={this.props.match.params.coin} />
-				)}
+				):
+					<ReviewPage coinUid={this.props.match.params.coin}/>
+			}
 			</div>
 		);
 	}
@@ -208,7 +240,10 @@ const mapStateToProps = state => {
 	const followedCoins = _.map(state.followedCoins, (val, uid) => {
 		return { ...val, uid };
 	});
-	return { currentCoin, postsForCoin, followedCoins, user };
+	const reviewsByUser = _.map(state.reviewsByUser, (val, uid) => {
+		return { ...val, uid };
+	});
+	return { currentCoin, postsForCoin, followedCoins, reviewsByUser, user };
 };
 
 export default connect(mapStateToProps, { fetchSingleCoin, fetchPostsForCoin, followCoin, unfollowCoin })(
