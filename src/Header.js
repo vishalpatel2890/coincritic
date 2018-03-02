@@ -256,7 +256,7 @@ class Header extends Component {
 								onCancel={this.handleSignInClose}
 								footer={null}
 								bodyStyle={{width: "25vw",
-								height:"21vw"}}
+								height:"35vh"}}
 								style={{
 									textAlign: "center",
 									display: "flex",
@@ -308,7 +308,7 @@ class Header extends Component {
 								onCancel={this.handleRegisterClose}
 								footer={null}
 								bodyStyle={{width: "26vw",
-								height:"28vw"}}
+								height:"60vh"}}
 								style={{
 									textAlign: "center",
 									display: "flex",
