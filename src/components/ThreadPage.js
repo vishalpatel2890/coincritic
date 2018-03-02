@@ -14,6 +14,8 @@ import {
 	unfollowPost
 } from "../actions";
 
+var moment = require("moment");
+
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const Panel = Collapse.Panel;
@@ -85,7 +87,7 @@ class ThreadPage extends Component {
 							<div style={{ display: "flex", flexDirection: "column" }}>
 								{postDetails ? (
 									<div>
-										<h1>{postDetails.postTitle}</h1>
+										<p className="post-title">{postDetails.postTitle}</p>
 										<p>{postDetails.postComment}</p>
 										<p>{postDetails.commentCount} comments</p>
 									</div>
@@ -97,7 +99,7 @@ class ThreadPage extends Component {
 							</div>
 							<div className="post-row-right">
 								<p>Submitted by: {postDetails.displayName}</p>
-								<p>osdos</p>
+								<p>{moment(postDetails.postDate, "YYYYMMDDhhmm a").fromNow()}</p>
 							</div>
 							<div className="follow">
 

@@ -13,7 +13,7 @@ class Table extends Component {
 	nameFormatter(cell,row) {
 		return (
 			<Link to={{ pathname: `coins/${row.uid}` }}>
-				{cell}
+				<p className="coin-name-column">{cell}</p>
 			</Link>
 		)
 	}
@@ -56,9 +56,9 @@ class Table extends Component {
 		var coinCheck = this.props.followedCoins.filter(function(coin){ return coin.coinUid === row.uid   })
 
 		if (coinCheck.length === 0) {
-			return <p onClick={() => this.follow(row.image, row.uid)}>Follow</p>
+			return <p className="follow-column link-blue" onClick={() => this.follow(row.image, row.uid)}>Follow</p>
 		} else {
-			return <p onClick={() => this.unfollow(row.uid)}>Unfollow</p>
+			return <p className="follow-column link-blue" onClick={() => this.unfollow(row.uid)}>Unfollow</p>
 			;
 		}
 	}

@@ -248,19 +248,33 @@ class Header extends Component {
 				) : (
 					<div className="App-account">
 						<div className="App-sign-in">
-							<p onClick={this.handleSignInOpen}>Sign In</p>
+							<p className="link-blue" onClick={this.handleSignInOpen}>Sign In</p>
 
 							<Modal
 								visible={this.state.signInOpen}
 								onOk={this.handleSignInClose}
 								onCancel={this.handleSignInClose}
 								footer={null}
+								bodyStyle={{width: "25vw",
+								height:"21vw"}}
 								style={{
 									textAlign: "center",
 									display: "flex",
-									flexDirection: "flex-column"
+									flexDirection: "flex-column",
+
 								}}
 							>
+								<div style={{display:"flex"}}>
+									<div className="register-modal-top-left">Sign In</div>
+									<div className="register-modal-top-right">
+										<div className="register-modal-top-right-top">
+											New User?
+										</div>
+										<div className="register-modal-top-right-bottom">
+											Register
+										</div>
+									</div>
+								</div>
 								<Form onSubmit={this.onLogin} className="login-form">
 									<FormItem>
 										<Input
@@ -287,12 +301,14 @@ class Header extends Component {
 							</Modal>
 
 							<p style={{ width: 10, textAlign: "center" }}> / </p>
-							<p onClick={this.handleRegisterOpen}>Register</p>
+							<p className="link-blue" onClick={this.handleRegisterOpen}>Register</p>
 							<Modal
 								visible={this.state.registerOpen}
 								onOk={this.handleRegisterClose}
 								onCancel={this.handleRegisterClose}
 								footer={null}
+								bodyStyle={{width: "26vw",
+								height:"28vw"}}
 								style={{
 									textAlign: "center",
 									display: "flex",
@@ -310,7 +326,7 @@ class Header extends Component {
 											value={this.state.registerEmail}
 											onChange={e =>
 												this.setState({ registerEmail: e.target.value })}
-											style={{ width: "50%", margin: 10 }}
+											style={{ width: "18vw",  height:"2.65vw", margin: 10 }}
 										/>
 									</FormItem>
 									<FormItem
@@ -323,7 +339,7 @@ class Header extends Component {
 											value={this.state.registerUsername}
 											onChange={e =>
 												this.setState({ registerUsername: e.target.value })}
-											style={{ width: "50%", margin: 10 }}
+											style={{ width: "18vw", height:"2.65vw",  margin: 10 }}
 										/>
 									</FormItem>
 									<FormItem
@@ -335,7 +351,7 @@ class Header extends Component {
 											placeholder="password"
 											value={this.state.registerPassword}
 											onChange={e => this.handlePasswordChange(e)}
-											style={{ width: "50%", margin: 10 }}
+											style={{ width: "18vw",  height:"2.65vw", margin: 10 }}
 											type="password"
 										/>
 									</FormItem>
@@ -348,7 +364,7 @@ class Header extends Component {
 											placeholder="verify-password"
 											value={this.state.registerVerifyPassword}
 											onChange={e => this.handleVerifyPasswordChange(e)}
-											style={{ width: "50%", margin: 10 }}
+											style={{ width: "18vw",  height:"2.65vw", margin: 10 }}
 											type="password"
 										/>
 									</FormItem>

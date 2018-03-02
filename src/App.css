@@ -1,5 +1,19 @@
 @import "~antd/dist/antd.css";
 
+body{
+	font-family: "San Francisco Display Medium" !important;
+}
+
+html {
+  font-family: "San Francisco Display Medium" !important;
+  font-size: 12px;
+
+}
+
+.p{
+	font-family: "San Francisco Display Medium" !important;
+}
+
 .App {
 	padding-left: 56px;
 	padding-right: 56px;
@@ -234,6 +248,7 @@
 .coin-box-right-reviews-breakdown-left {
 	flex: 0.4;
 	padding-left: 10px;
+	font-size: 1.1vw;
 }
 
 .coin-box-right-reviews-breakdown-right {
@@ -476,7 +491,6 @@ width: 40%;
   width: 100%;
   height: 30px;
   padding: 10px 20px;
-  font-family: Helvetica, sans-serif;
   font-weight: 300;
   font-size: 16px;
   border: 1px solid #aaa;
@@ -502,7 +516,6 @@ width: 40%;
   width: 100%;
   border: 1px solid #aaa;
   background-color: #fff;
-  font-family: Helvetica, sans-serif;
   font-weight: 300;
   font-size: 16px;
   border-bottom-left-radius: 4px;
@@ -525,4 +538,123 @@ width: 40%;
 
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
+}
+
+
+h1 {
+  color: #333;
+  font-weight:normal;
+  font-size:5vw;
+}
+
+.post-title{
+	color: #4a90e2;
+	font-weight: bold;
+	font-size: 2vw;
+}
+
+@font-face {
+  font-family: "San Francisco Display Ultralight";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.ttf) format("truetype")
+}
+
+@font-face {
+  font-family: "San Francisco Display Thin";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.ttf) format("truetype")
+}
+
+@font-face {
+  font-family: "San Francisco Display Medium";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.ttf) format("truetype")
+}
+
+@font-face {
+  font-family: "San Francisco Display Semibold";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.ttf) format("truetype")
+}
+
+@font-face {
+  font-family: "San Francisco Display Bold";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.ttf) format("truetype")
+}
+
+h1:nth-child(1) {
+  font-family: "San Francisco Display Ultralight";
+}
+
+h1:nth-child(2) {
+  font-family: "San Francisco Display Thin";
+}
+
+h1:nth-child(3) {
+  font-family: "San Francisco Display Medium";
+}
+
+h1:nth-child(4) {
+  font-family: "San Francisco Display Semibold";
+}
+
+h1:nth-child(5) {
+  font-family: "San Francisco Display Bold";
+}
+
+.follow-column{
+
+	font-size: .8em;
+	letter-spacing: 0.3px;
+
+}
+
+.link-blue{
+	color: #4a90e2;
+	 cursor:pointer;
+}
+
+.ant-modal-content{
+	border: solid 1px #979797;
+	 background-color: #efeff2;
+}
+
+.ant-modal-mask{
+	background-color: rgba(255, 255, 255,1)
+}
+
+.register-modal-top-left{
+	width: 50%;
+	text-align: left;
+	color: #595a66;
+	font-size: 24px;
+  font-weight: bold;
+}
+
+.register-modal-top-right{
+	width: 50%;
+	justify-content: flex-start;
+	display: flex;
+	flex-direction: column;
+}
+
+.register-modal-top-right-top{
+	font-size: 12px;
+	color: #595a66;
+}
+
+.register-modal-top-right-bottom{
+	font-size: 18px;
+	 color: #4a90e2;
+}
+
+.vertical-center-modal{
+	width: 26vw;
+	height: 21vw;
 }

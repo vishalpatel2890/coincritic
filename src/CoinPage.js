@@ -20,6 +20,7 @@ class CoinPage extends Component {
 		console.log(this.props)
 		console.log(nextProps)
 		if (this.props.match.params.coin !== nextProps.match.params.coin){
+			this.setState({review: false, thread: false, readReviews: false})
 			this.props.fetchSingleCoin(nextProps.match.params.coin);
 			this.props.fetchPostsForCoin(nextProps.match.params.coin);
 		}
@@ -116,7 +117,7 @@ class CoinPage extends Component {
 										Start A Thread
 									</Button>
 								</div>
-							) : null}
+							) : <Button onClick={()=> this.setState({review: false, thread: false, readReviews: false})}>Return To Coin Page</Button>}
 						</div>
 					</div>
 					<div className="coin-box-right">
@@ -141,7 +142,7 @@ class CoinPage extends Component {
 						<div className="coin-box-right-reviews">
 							<div className="coin-box-right-reviews-left">REVIEWS</div>
 							<div className="coin-box-right-reviews-right">
-								<p onClick={this.handleReadReviewsOpen}>Read all 24 reviews</p>
+								<p className="link-blue" onClick={this.handleReadReviewsOpen}>Read all <strong>{reviewCount}</strong> reviews</p>
 							</div>
 						</div>
 						<div className="coin-box-right-reviews-breakdown">
@@ -150,7 +151,7 @@ class CoinPage extends Component {
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
 							<Rate
-								style={{ fontSize: 20 }}
+								style={{ fontSize: "1.5vw" }}
 								character={<Icon type="star" />}
 								disabled
 								allowHalf
@@ -164,7 +165,7 @@ class CoinPage extends Component {
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
 							<Rate
-								style={{ fontSize: 20 }}
+								style={{ fontSize: "1.5vw" }}
 								character={<Icon type="star" />}
 								disabled
 								allowHalf
@@ -178,7 +179,7 @@ class CoinPage extends Component {
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
 							<Rate
-								style={{ fontSize: 20 }}
+								style={{ fontSize: "1.5vw" }}
 								character={<Icon type="star" />}
 								disabled
 								allowHalf
@@ -192,7 +193,7 @@ class CoinPage extends Component {
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
 							<Rate
-								style={{ fontSize: 20 }}
+								style={{ fontSize: "1.5vw" }}
 								character={<Icon type="star" />}
 								disabled
 								allowHalf
@@ -206,7 +207,7 @@ class CoinPage extends Component {
 							</div>
 							<div className="coin-box-right-reviews-breakdown-right">
 							<Rate
-								style={{ fontSize: 20 }}
+								style={{ fontSize: "1.5vw" }}
 								character={<Icon type="star" />}
 								disabled
 								allowHalf
