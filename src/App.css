@@ -452,7 +452,7 @@ html {
 .review-right {
 	display: flex;
 	flex-direction: column;
-	width: 30%;
+	width: 40%;
 	margin: .5vw;
 	margin-left: 5vw;
 	margin-right: 0;
@@ -464,6 +464,7 @@ html {
 
 .review-right-overall-label {
 width: 40%;
+font-size: 1vw;
 }
 
 .review-right-overall-rating {
@@ -476,6 +477,7 @@ width: 40%;
 
 .review-right-breakdown-label {
 	width: 40%;
+	font-size: 1vw;
 }
 
 .review-right-breakdown-rating {
@@ -485,6 +487,9 @@ width: 40%;
 
 .react-autosuggest__container {
   position: relative;
+	font-family: "San Francisco Display Thin" !important;
+	color: #ababb6;
+	width: 18vw;
 }
 
 .react-autosuggest__input {
@@ -550,7 +555,17 @@ h1 {
 .post-title{
 	color: #4a90e2;
 	font-weight: bold;
-	font-size: 2vw;
+	font-size: 1.25vw;
+}
+
+.post-vote{
+	color: #4a90e2;
+	font-size: 1vw;
+}
+
+.bold{
+	font-family: "San Francisco Display Bold";
+	color: #ababb6;
 }
 
 @font-face {
@@ -657,4 +672,8 @@ h1:nth-child(5) {
 .vertical-center-modal{
 	width: 26vw;
 	height: 21vw;
+}
+
+.ant-collapse-borderless > .ant-collapse-item{
+	margin-left: 50px;
 }

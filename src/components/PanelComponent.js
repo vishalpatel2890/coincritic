@@ -53,8 +53,13 @@ class PanelComponent extends Component {
 	};
 
 	submitComment = e => {
+		e.stopPropagation();
 		e.preventDefault();
 		const { childComment } = this.state;
+		if (childComment === "") {
+			alert('Comment cannot be empty')
+		}
+		else {
 		const {
 			commentUid,
 			childCount,
@@ -78,7 +83,8 @@ class PanelComponent extends Component {
 			displayName,
 			uid
 		});
-		this.setState({ reply: false });
+		this.setState({childComment: ""})
+	 }
 	};
 	render() {
 		const renderReplyCount = this.props.openPanels
@@ -150,8 +156,9 @@ class PanelComponent extends Component {
 							<Form onSubmit={this.submitComment} className="review-form">
 								<FormItem>
 									<TextArea
+										onClick={e => e.stopPropagation()}
 										onChange={e => this.handleCommentChange(e.target.value)}
-										placeholder={`Write your review of ${this.props.coinName}`}
+										placeholder={`Enter your comment`}
 										value={this.state.childComment}
 										rows={4}
 										style={{ overflowX: "hidden", borderRadius: 4 }}

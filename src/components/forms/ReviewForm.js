@@ -136,6 +136,7 @@ class ReviewForm extends Component {
 			uid,
 			reviewKey
 		});
+		alert('Review Updated')
 	};
 
 	render() {

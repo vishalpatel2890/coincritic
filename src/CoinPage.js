@@ -20,7 +20,7 @@ class CoinPage extends Component {
 		console.log(this.props)
 		console.log(nextProps)
 		if (this.props.match.params.coin !== nextProps.match.params.coin){
-			this.setState({review: false, thread: false, readReviews: false})
+			this.setState({review: false, thread: false, readReviews: false, threadPage: false})
 			this.props.fetchSingleCoin(nextProps.match.params.coin);
 			this.props.fetchPostsForCoin(nextProps.match.params.coin);
 		}
@@ -29,7 +29,8 @@ class CoinPage extends Component {
 	state = {
 		review: false,
 		thread: false,
-		readReviews: false
+		readReviews: false,
+		threadPage: false
 	};
 
 	handleReviewOpen = () => {
@@ -47,6 +48,10 @@ class CoinPage extends Component {
 	handleThreadClose = () => {
 		this.setState({ thread: false });
 	};
+
+	handleThreadPageOpen = () =>{
+		this.setState({threadPage: true})
+	}
 
 	handleReadReviewsOpen = () => {
 		this.setState({ readReviews: true });
@@ -71,7 +76,7 @@ class CoinPage extends Component {
 
 	render() {
 		const { currentCoin, postsForCoin, followedCoins, reviewsByUser, user } = this.props;
-		const { review, thread, readReviews } = this.state;
+		const { review, thread, readReviews, threadPage} = this.state;
 		const currentCoinUid = this.props.match.params.coin;
 		const {team, whitepaper, roadmap, landscape, realworld, reviewCount} = currentCoin;
 		var teamAvg = team/reviewCount
@@ -116,8 +121,18 @@ class CoinPage extends Component {
 									>
 										Start A Thread
 									</Button>
+									{review === false && thread === false && readReviews === false && threadPage === true ?
+										<Button
+
+											onClick={()=> this.setState({threadPage: false })}
+										>
+											Return To Coin Page
+										</Button> : null
+									}
 								</div>
-							) : <Button onClick={()=> this.setState({review: false, thread: false, readReviews: false})}>Return To Coin Page</Button>}
+							) :
+
+							<Button onClick={()=> this.setState({review: false, thread: false, readReviews: false})}>Return To Coin Page</Button>}
 						</div>
 					</div>
 					<div className="coin-box-right">
@@ -218,7 +233,7 @@ class CoinPage extends Component {
 					</div>
 				</div>
 				{review === false && thread === false && readReviews === false ? (
-					<Thread coinUid={this.props.match.params.coin} postsForCoin={postsForCoin} />
+					<Thread handleThreadPageOpen={this.handleThreadPageOpen} coinUid={this.props.match.params.coin} threadPage={threadPage} postsForCoin={postsForCoin} />
 				) : review === true && thread === false && readReviews === false ? (
 					<ReviewForm reviewCheck={reviewCheck} currentCoin={currentCoin} handleReviewClose={this.handleReviewClose} coinName={currentCoin.name} coinUid={this.props.match.params.coin}/>
 				) : review === false && thread === true && readReviews === false ?

@@ -27,6 +27,8 @@ class Header extends Component {
 		registerEmail: "",
 		registerEmailCheck: "",
 		registerEmailValidate: "",
+		registerEmailValidateRegex: "",
+		registerEmailValidateUnique: "",
 		registerPassword: "",
 		registerPasswordValidate: "",
 		registerVerifyPassword: "",
@@ -91,7 +93,7 @@ class Header extends Component {
 								registerUsernameValidate: "error"
 							});
 						} else {
-							this.setState({ registerUsernameValidate: "success" });
+							this.setState({ registerUsernameValidate: "success", registerUsernameValidateUnique: "success", registerUsernameValidateLength: "success"});
 						}
 					});
 			} else {
@@ -110,14 +112,14 @@ class Header extends Component {
 					.fetchProvidersForEmail(registerEmail)
 					.then(providers => this.setState({ registerEmailCheck: providers }));
 			} else {
-				this.setState({ registerEmailValidate: "error" });
+				this.setState({ registerEmailValidate: "error", registerEmailValidateRegex: "error" });
 			}
 		}
 		if (prevState.registerEmailCheck !== registerEmailCheck) {
 			if (registerEmailCheck.length > 0) {
-				this.setState({ registerEmailValidate: "error" });
+				this.setState({ registerEmailValidate: "error", registerEmailValidateUnique: "error" });
 			} else {
-				this.setState({ registerEmailValidate: "success" });
+				this.setState({ registerEmailValidate: "success", registerEmailValidateUnique: "success", registerEmailValidateRegex:"success" });
 			}
 		}
 	}
@@ -148,11 +150,17 @@ class Header extends Component {
 
 	onLogin = e => {
 		e.preventDefault();
-
 		const { email, password } = this.props;
 		this.props.loginUser({ email, password });
-		console.log(this.props.error);
+		if (this.props.error === "auth/user-not-found"){
+			alert('Sorry, user not found')
+		}
+		else if (this.props.error === "auth/wrong-password") {
+			alert('Sorry, wrong password')
+		}
+		else{
 		this.setState({ signInOpen: false });
+	}
 	};
 
 	onRegister = e => {
@@ -214,13 +222,12 @@ class Header extends Component {
 
 	render() {
 		const { user } = this.props;
-		const { value, suggestions } = this.state
+		const { value, suggestions, registerEmailValidate, registerEmailValidateRegex, registerEmailValidateUnique, registerVerifyPasswordValidate, registerPasswordValidate, registerUsernameValidateUnique, registerUsernameValidateLength} = this.state
 		const inputProps = {
-      placeholder: "Type 'c'",
+      placeholder: "search coins",
       value,
       onChange: this.onChange
     };
-		console.log(this.props.coins)
 		return (
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
@@ -317,9 +324,9 @@ class Header extends Component {
 							>
 								<Form onSubmit={this.onRegister} className="login-form">
 									<FormItem
-										validateStatus={this.state.registerEmailValidate}
+										validateStatus={registerEmailValidate}
 										hasFeedback
-										help="Should be combination of numbers & alphabets"
+										help={registerEmailValidateUnique === "error" ? ("This email is already in use.") : (registerEmailValidateRegex === "error" ? ("Not a valid email address" ): (null)) }
 									>
 										<Input
 											placeholder="email"
@@ -332,7 +339,7 @@ class Header extends Component {
 									<FormItem
 										validateStatus={this.state.registerUsernameValidate}
 										hasFeedback
-										help="Should be combination of numbers & alphabets"
+										help={registerUsernameValidateUnique === "error" ? ("Username is already taken") : (registerUsernameValidateLength === "error" ? ("Username must be at least 6 characters long") : (null))}
 									>
 										<Input
 											placeholder="username"
@@ -345,7 +352,7 @@ class Header extends Component {
 									<FormItem
 										validateStatus={this.state.registerPasswordValidate}
 										hasFeedback
-										help="Should be combination of numbers & alphabets"
+										help={registerPasswordValidate === "error" ? "Must have >8 character and least one number." : null}
 									>
 										<Input
 											placeholder="password"
@@ -358,7 +365,7 @@ class Header extends Component {
 									<FormItem
 										hasFeedback
 										validateStatus={this.state.registerVerifyPasswordValidate}
-										help="Should be combination of numbers & alphabets"
+										help={registerVerifyPasswordValidate === "error" ? "Passwords do not match." : null}
 									>
 										<Input
 											placeholder="verify-password"

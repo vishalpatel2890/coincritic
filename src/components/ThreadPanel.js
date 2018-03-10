@@ -14,17 +14,17 @@ class ThreadPanel extends Component {
 		active: false
 	};
 
-	upvoteOnPost = (postUid, votes) => {
+	upvoteOnPost = (postUid, votes, userVotesCheck) => {
 		const { uid } = this.props.user;
-		const userVote = "upvote";
+		const userVote = userVotesCheck[postUid]=== "downvote" ? null : "upvote";
 		const newVoteTotal = votes + 1;
 		const { coinUid } = this.props;
 		this.props.votePost({ postUid, uid, newVoteTotal, userVote, coinUid });
 	};
 
-	downvoteOnPost = (postUid, votes) => {
+	downvoteOnPost = (postUid, votes, userVotesCheck) => {
 		const { uid } = this.props.user;
-		const userVote = "downvote";
+		const userVote = userVotesCheck[postUid]=== "upvote" ? null : "downvote";
 		const newVoteTotal = votes - 1;
 		const { coinUid } = this.props;
 		this.props.votePost({ postUid, uid, newVoteTotal, userVote, coinUid });
@@ -63,22 +63,22 @@ class ThreadPanel extends Component {
 								onClick={
 									userVotesCheck[post.uid] === "upvote"
 										? null
-										: () => this.upvoteOnPost(post.uid, post.votes)
+										: () => this.upvoteOnPost(post.uid, post.votes, userVotesCheck)
 								}
 							/>
-							<p>{post.votes}</p>
+							<p style={{textAlign: "center", marginTop: 1, marginBottom: 1}} className="post-vote">{post.votes}</p>
 							<IconA
 								type="down"
 								onClick={
 									userVotesCheck[post.uid] === "downvote"
 										? null
-										: () => this.downvoteOnPost(post.uid, post.votes)
+										: () => this.downvoteOnPost(post.uid, post.votes, userVotesCheck)
 								}
 							/>
 						</div>
 					) : (
 						<div>
-							<p>{post.votes}</p>
+							<p className="post-vote">{post.votes}</p>
 						</div>
 					)}
 				</div>
@@ -86,11 +86,7 @@ class ThreadPanel extends Component {
 					<div className="post-row">
 						<div className="post-row-left">
 							<p
-								style={{
-									color: "#4a90e2",
-									fontSize: 18,
-									fontWeight: "bold"
-								}}
+								className="post-title"
 								onClick={() => onThreadClick(post.uid, post.commentCount)}
 							>
 								{post.postTitle}

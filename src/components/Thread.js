@@ -11,7 +11,14 @@ class Thread extends Component {
 		commentCount: ""
 	};
 
+	componentWillUpdate(nextProps, nextState){
+		if (this.props.threadPage === true && nextProps.threadPage === false){
+			this.setState({thread: null})
+		}
+	}
+
 	onThreadClick = (postUid, commentCount) => {
+		this.props.handleThreadPageOpen();
 		this.setState({ thread: postUid, commentCount: commentCount });
 	};
 

@@ -24,6 +24,9 @@ class ThreadForm extends Component {
 
 	submitPost = e => {
 		e.preventDefault();
+		if (postTitle === "" || postComment === ""){
+			alert('please complete all fields before submitting')
+		}
 		const {displayName, uid} = this.props.user;
 		const {postTitle, postComment, votes} = this.state;
 		const {coinUid} = this.props;

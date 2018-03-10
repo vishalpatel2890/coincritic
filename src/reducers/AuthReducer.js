@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   user: null,
-  error: '',
+  error: null,
   loading: false
 };
 
@@ -22,11 +22,11 @@ export const auth = (state = INITIAL_STATE, action) => {
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload };
     case LOGIN_USER:
-      return { ...state, loading: true, error: '' };
+      return { ...state, loading: true, error: null };
     case LOGIN_USER_SUCCESS:
       return { ...state, ...INITIAL_STATE, user: action.payload };
     case LOGIN_USER_FAIL:
-      return { ...state, error: 'Authentication Failed.', password: '', loading: false };
+      return { ...state, error: action.payload, password: '', loading: false };
      case SIGNOUT_USER:
       return { ...state, ...INITIAL_STATE}
     default:

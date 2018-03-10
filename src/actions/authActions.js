@@ -41,6 +41,7 @@ export const loginUser = ({ email, password }) => {
 					.signInWithEmailAndPassword(email, password)
 					.then(user => loginUserSuccess(dispatch, user))
 					.catch(error => {
+						loginUserFail(dispatch, error.code)
 						console.log(error.code);
 					});
 			})
@@ -77,7 +78,7 @@ export const signUpUser = ({
 
 const loginUserFail = (dispatch, error) => {
 	console.log(error);
-	dispatch({ type: LOGIN_USER_FAIL });
+	dispatch({ type: LOGIN_USER_FAIL, payload: error });
 };
 
 const loginUserSuccess = (dispatch, user, registerUsername) => {

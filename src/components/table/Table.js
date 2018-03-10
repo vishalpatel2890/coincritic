@@ -64,7 +64,7 @@ class Table extends Component {
 	}
 
 	render() {
-		console.log(this.props.data)
+
 		return (
 			<BootstrapTable
 				data={this.props.data}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Input, Button, Form, Collapse } from "antd";
+import { Icon as IconA } from "antd";
 import _ from "lodash";
 import Flag from 'material-ui-icons/Flag';
 
@@ -11,7 +12,8 @@ import {
 	fetchCommentsForPost,
 	fetchPostDetails,
 	followPost,
-	unfollowPost
+	unfollowPost,
+	votePost
 } from "../actions";
 
 var moment = require("moment");
@@ -24,7 +26,9 @@ class ThreadPage extends Component {
 	state = {
 		comment: "",
 		commentCount: this.props.commentCount,
-		openPanels: []
+		openPanels: [],
+		active: false,
+
 	};
 
 	componentWillMount() {
@@ -62,6 +66,22 @@ class ThreadPage extends Component {
 		this.props.unfollowPost({ uid, postUid });
 	};
 
+	upvoteOnPost = (postUid, votes, userVotesCheck) => {
+		const { uid } = this.props.user;
+		const userVote = userVotesCheck[postUid]=== "downvote" ? null : "upvote";
+		const newVoteTotal = votes + 1;
+		const { coinUid } = this.props;
+		this.props.votePost({ postUid, uid, newVoteTotal, userVote, coinUid });
+	};
+
+	downvoteOnPost = (postUid, votes, userVotesCheck) => {
+		const { uid } = this.props.user;
+		const userVote = userVotesCheck[postUid]=== "upvote" ? null : "downvote";
+		const newVoteTotal = votes - 1;
+		const { coinUid } = this.props;
+		this.props.votePost({ postUid, uid, newVoteTotal, userVote, coinUid });
+	};
+
 	render() {
 		const {
 			commentsForPost,
@@ -70,19 +90,42 @@ class ThreadPage extends Component {
 			commentCount,
 			postDetails,
 			followedPosts,
-			user
+			user,
+			postsVotes
 		} = this.props;
 		var postCheck = followedPosts
 			? followedPosts.filter(function(followedPost) {
 					return postUid === followedPost.uid;
 				})
 			: null;
+		const userVotesCheck = postsVotes ? postsVotes : [];
 		return (
 			<div className="thread">
 				<div className="thread-row">
 					<div className="thread-header">
 						<div className="post-comment">
-							<div className="vote-count">x</div>
+
+							<div onMouseEnter={() => this.setState({ active: true })}
+							onMouseLeave={() => this.setState({ active: false })} className="vote-count">{this.state.active && user ? (<div>
+								<IconA
+									type="up"
+									onClick={
+										userVotesCheck[postUid] === "upvote"
+											? null
+											: () => this.upvoteOnPost(postUid, postDetails.votes, userVotesCheck)
+									}
+								/>
+								<p style={{textAlign: "center", marginTop: 1, marginBottom: 1}} className="post-vote">{postDetails.votes}</p>
+								<IconA
+									type="down"
+									onClick={
+										userVotesCheck[postUid] === "downvote"
+											? null
+											: () => this.downvoteOnPost(postUid, postDetails.votes, userVotesCheck)
+									}
+								/>
+							</div>
+						) : (<div className="post-vote">{postDetails.votes}</div>)}</div>
 
 							<div style={{ display: "flex", flexDirection: "column" }}>
 								{postDetails ? (
@@ -98,8 +141,8 @@ class ThreadPage extends Component {
 								)}
 							</div>
 							<div className="post-row-right">
-								<p>Submitted by: {postDetails.displayName}</p>
-								<p>{moment(postDetails.postDate, "YYYYMMDDhhmm a").fromNow()}</p>
+								<div style={{display:"flex", justifyContent: "flex-end"}}><span style={{color: "#ababb6"}}>Submitted by: <span className="bold"> {postDetails.displayName}</span></span></div>
+								<p style={{color: "#ababb6"}}>{moment(postDetails.postDate, "YYYYMMDDhhmm a").fromNow()}</p>
 							</div>
 							<div className="follow">
 
@@ -191,7 +234,8 @@ const mapStateToProps = state => {
 	const followedPosts = _.map(state.followedPosts, (val, uid) => {
 		return { ...val, uid };
 	});
-	return { currentCoin, commentsForPost, user, postDetails, followedPosts };
+	const { postsVotes, } = state.userVotes;
+	return { currentCoin, commentsForPost, user, postDetails, followedPosts, postsVotes };
 };
 
 export default connect(mapStateToProps, {
@@ -199,5 +243,6 @@ export default connect(mapStateToProps, {
 	fetchCommentsForPost,
 	fetchPostDetails,
 	followPost,
-	unfollowPost
+	unfollowPost,
+	votePost
 })(ThreadPage);
