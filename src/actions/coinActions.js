@@ -6,13 +6,13 @@ import {
 import firebase from "firebase";
 
 
-export const addCoin = ({ name, coin }) => {
+export const addCoin = ({ name, ticker, image, url }) => {
 	return dispatch => {
 		firebase
 			.database()
 			.ref("/coins")
       .child(name)
-      .set({'image': coin, team: 0, landscape: 0, whitepaper: 0, realworld: 0, roadmap: 0, reviewCount: 0, reviewAvg: 0 })
+      .set({'image': image, 'ticker': ticker, 'url': url, team: 0, landscape: 0, whitepaper: 0, realworld: 0, roadmap: 0, reviewCount: 0, reviewAvg: 0 })
 			.then(() => {
 				dispatch({ type: ADD_COIN });
 			});

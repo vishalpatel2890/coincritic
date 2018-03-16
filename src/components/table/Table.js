@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import {Rate, Icon} from "antd"
 
 import { followCoin, unfollowCoin } from "../../actions";
+import square from "../../assets/cc-logo-square.png"
 
 class Table extends Component {
 	nameFormatter(cell,row) {
@@ -21,7 +22,7 @@ class Table extends Component {
 	coinFormatter(cell, row) {
 		return (
 			<Link to={{ pathname: `coins/${row.uid}` }}>
-				<img alt={row.uid} height="31" width="31" src={cell} />
+				{cell ? <img alt={row.uid} height="31" width="31" src={cell} /> : <img height="31" width="31" src={square}/> }
 			</Link>
 		);
 	}

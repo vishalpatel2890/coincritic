@@ -6,6 +6,7 @@ import firebase from "firebase";
 import _ from "lodash"
 
 import logo from "./logo.svg";
+import landscape from "./assets/cc-logo-landscape.png"
 import "./App.css";
 import {
 	emailChanged,
@@ -230,7 +231,7 @@ class Header extends Component {
     };
 		return (
 			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
+				<img src={landscape} alt="logo" style={{width: "15%", marginRight: "2vw"}} />
 				<Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
