@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import firebase from "firebase";
+import {Helmet} from "react-helmet";
 
 
 import Main from "./Main";
@@ -26,6 +27,11 @@ class App extends Component {
 		return (
 			<div>
 				<div>
+				<Helmet>
+	<meta charSet="utf-8" />
+	<title>CoinCritic</title>
+	<link rel="canonical" href="http://mysite.com/example" />
+</Helmet>
 					<Main />
 				</div>
 			</div>
