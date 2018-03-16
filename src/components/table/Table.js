@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 import "../../App.css";
+import "../../table.css"
 import { connect } from "react-redux";
 import _ from "lodash";
 import { Link } from "react-router-dom";
@@ -72,6 +73,7 @@ class Table extends Component {
 				trClassName="tr-string-example"
 				tableStyle={{ border: "none" }}
 				tableBodyClass="coin-table-header"
+				pagination={true}
 			>
 				<TableHeaderColumn
 					dataField="image"

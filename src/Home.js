@@ -7,6 +7,7 @@ import { Avatar, Row, Col } from "antd";
 import "./App.css";
 import Table from "./components/table/Table";
 import Header from "./Header";
+import square from "./assets/cc-logo-square.png"
 import { fetchCoins, navCoin } from "./actions";
 
 class Home extends Component {
@@ -46,7 +47,7 @@ class Home extends Component {
 												to={{
 													pathname: `coins/${coin.coinUid}`}}
 													>
-												<img alt={coin.coinUid} height="110" width="110" src={coin.coinURI} />
+												{coin.coinURI ? <img alt={coin.coinUid} height="110" width="110" src={coin.coinURI} /> : <img alt={coin.coinUid} height="110" width="110" src={square} />}
 												<p style={{ marginTop: 16, fontWeight: "bold" }}>
 													{coin.coinUid}
 												</p>
