@@ -9,6 +9,7 @@ import ThreadForm from "./components/forms/ThreadForm";
 import Thread from "./components/Thread";
 import ReviewPage from "./components/ReviewPage";
 import { fetchSingleCoin, fetchPostsForCoin, followCoin, unfollowCoin } from "./actions";
+import placeholderLogo from "./assets/cc-logo-square.png"
 
 class CoinPage extends Component {
 	componentWillMount() {
@@ -95,7 +96,7 @@ class CoinPage extends Component {
 				<div className="coin-box">
 					<div className="coin-box-left">
 						<div className="coin-box-left-image">
-							<img alt={currentCoin.coinUid} height="154" width="154" src={currentCoin.image} />
+							{currentCoin.image ? <img alt={currentCoin.coinUid} height="154" width="154" src={currentCoin.image}/> : <img alt={currentCoin.coinUid} height="154" width="154" src={placeholderLogo}/> }
 						</div>
 						<div className="coin-box-left-website">
 							<p>{this.props.match.params.coin}</p>

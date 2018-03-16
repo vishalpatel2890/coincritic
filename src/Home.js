@@ -47,7 +47,7 @@ class Home extends Component {
 												to={{
 													pathname: `coins/${coin.coinUid}`}}
 													>
-												{coin.coinURI ? <img alt={coin.coinUid} height="110" width="110" src={coin.coinURI} /> : <img alt={coin.coinUid} height="110" width="110" src={square} />}
+												{coin.coinURI ? <img alt={coin.coinUid} height="110" width="110" src={coin.coinURI} /> : <img alt={coin.coinUid} height="110" width="110" src={square	} />}
 												<p style={{ marginTop: 16, fontWeight: "bold" }}>
 													{coin.coinUid}
 												</p>
