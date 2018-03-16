@@ -6,6 +6,7 @@ import firebase from "firebase";
 import _ from "lodash"
 
 import logo from "./logo.svg";
+import placeholderLogo from "./assets/cc-logo-square.png"
 import landscape from "./assets/cc-logo-landscape.png"
 import "./App.css";
 import {
@@ -198,7 +199,9 @@ class Header extends Component {
 	}
 
 	renderSuggestion(suggestion) {
-		return <Link to={`/coins/${suggestion.uid}`} replace={true}><span><img src={suggestion.image} height="31" width="31" style={{marginRight: "1em" }}/>
+		const suggestionimage = suggestion.image;
+		const logo = suggestion.image ? (suggestion.image) : (placeholderLogo)
+		return <Link to={`/coins/${suggestion.uid}`} replace={true}><span><img src={logo} height="31" width="31" style={{marginRight: "1em" }}/>
 						{suggestion.uid}
 					</span></Link>;
 	}
@@ -231,7 +234,7 @@ class Header extends Component {
     };
 		return (
 			<header className="App-header">
-				<img src={landscape} alt="logo" style={{width: "15%", marginRight: "2vw"}} />
+				<Link to='/' style={{width: "15%", marginRight: "2vw"}}><img src={landscape} alt="logo" style={{width: "100%"}}/></Link>
 				<Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
