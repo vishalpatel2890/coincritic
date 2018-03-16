@@ -56,13 +56,14 @@ class Table extends Component {
 	followFormatter(cell, row) {
 
 		var coinCheck = this.props.followedCoins.filter(function(coin){ return coin.coinUid === row.uid   })
-
+		if (this.props.user) {
 		if (coinCheck.length === 0) {
 			return <p className="follow-column link-blue" onClick={() => this.follow(row.image, row.uid)}>Follow</p>
 		} else {
 			return <p className="follow-column link-blue" onClick={() => this.unfollow(row.uid)}>Unfollow</p>
 			;
 		}
+	} else null
 	}
 
 	render() {
