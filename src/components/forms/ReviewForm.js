@@ -55,7 +55,8 @@ class ReviewForm extends Component {
 		this.setState({ review: value });
 	};
 
-	onSubmitReview = reviewAvg => {
+	onSubmitReview = (e, reviewAvg) => {
+		e.preventDefault();
 		const { uid, displayName } = this.props.user;
 		const { coinUid, currentCoin } = this.props;
 		const {
@@ -73,6 +74,7 @@ class ReviewForm extends Component {
 		const newRealworld = currentCoin.realworld + realworld;
 		const newReviewAvg = currentCoin.reviewAvg + reviewAvg;
 		const newReviewCount = currentCoin.reviewCount + 1;
+		if (review){
 		this.props.addReview({
 			newTeam,
 			newWhitepaper,
@@ -91,7 +93,12 @@ class ReviewForm extends Component {
 			coinUid,
 			displayName,
 			uid
-		});
+		})
+
+	}
+		else {
+			alert(`Please write a review!`)
+		}
 	};
 
 	onUpdateReview = (e, reviewAvg) => {
@@ -163,14 +170,14 @@ class ReviewForm extends Component {
 					onSubmit={
 						reviewCheck.length > 0
 							? e => this.onUpdateReview(e, reviewAvg)
-							: () => this.onSubmitReview(reviewAvg)
+							: e => this.onSubmitReview(e, reviewAvg)
 					}
 					className="review-form"
 				>
 					<FormItem>
 						<TextArea
 							onChange={e => this.handleReviewChange(e.target.value)}
-							placeholder={`Write your review of ${this.props.coinName}`}
+							placeholder={`Write your review`}
 							rows={8}
 							style={{ overflowX: "hidden", borderRadius: 4 }}
 							value={review}

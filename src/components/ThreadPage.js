@@ -27,8 +27,7 @@ class ThreadPage extends Component {
 		comment: "",
 		commentCount: this.props.commentCount,
 		openPanels: [],
-		active: false,
-
+		active: false
 	};
 
 	componentWillMount() {
@@ -45,6 +44,7 @@ class ThreadPage extends Component {
 		const { postUid, coinUid } = this.props;
 		const { displayName, uid } = this.props.user;
 		const { comment, commentCount } = this.state;
+		if (comment){
 		this.props.addCommentToPost({
 			postUid,
 			comment,
@@ -53,7 +53,10 @@ class ThreadPage extends Component {
 			displayName,
 			uid
 		});
-		this.setState({ comment: "", commentCount: commentCount + 1 });
+		this.setState({ comment: "", commentCount: commentCount + 1 })
+	} else {
+		alert('Please enter a comment!')
+	}
 	};
 
 	followPost = postUid => {

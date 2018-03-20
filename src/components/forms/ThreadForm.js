@@ -49,7 +49,7 @@ class ThreadForm extends Component {
 					<FormItem>
 						<TextArea
 							onChange={e => this.handleCommentChange(e.target.value)}
-							placeholder={`Write your review of ${this.props.coinName}`}
+							placeholder={`Leave a comment`}
 							value={this.state.postComment}
 							rows={8}
 							style={{ overflowX: "hidden", borderRadius: 4 }}
