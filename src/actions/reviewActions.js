@@ -93,6 +93,7 @@ export const updateReview = ({
 	roadmap,
 	landscape,
 	realworld,
+	review,
 	reviewAvg,
 	coinUid,
 	uid,
@@ -105,12 +106,14 @@ export const updateReview = ({
 	updates["ratingsByCoin/" + coinUid + "/" + reviewKey + "/landscape"] = landscape;
 	updates["ratingsByCoin/" + coinUid + "/" + reviewKey + "/realworld"] = realworld;
 	updates["ratingsByCoin/" + coinUid + "/" + reviewKey + "/reviewAvg"] = reviewAvg;
+	updates["ratingsByCoin/" + coinUid + "/" + reviewKey + "/review"] = review;
 	updates["ratingsByUser/" + uid + "/" + reviewKey + "/team"] = team;
 	updates["ratingsByUser/" + uid + "/" + reviewKey + "/whitepaper"] = whitepaper;
 	updates["ratingsByUser/" + uid + "/" + reviewKey + "/roadmap"] = roadmap;
 	updates["ratingsByUser/" + uid + "/" + reviewKey + "/landscape"] = landscape;
 	updates["ratingsByUser/" + uid + "/" + reviewKey + "/realworld"] = realworld;
 	updates["ratingsByUser/" + uid + "/" + reviewKey + "/reviewAvg"] = reviewAvg;
+	updates["ratingsByUser/" + uid + "/" + reviewKey + "/review"] = review;
 	updates["coins/" + coinUid + "/team"] = newTeam;
   updates["coins/" + coinUid + "/whitepaper"] = newWhitepaper;
   updates["coins/" + coinUid + "/roadmap"] = newRoadmap;

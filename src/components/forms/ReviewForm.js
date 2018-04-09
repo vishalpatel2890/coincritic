@@ -17,9 +17,8 @@ class ReviewForm extends Component {
 		review: ""
 	};
 
-	componentWillMount() {
+	componentWillMount(){
 		const { reviewCheck } = this.props;
-
 		if (reviewCheck.length > 0) {
 			this.setState({
 				team: reviewCheck[0].team,
@@ -29,6 +28,41 @@ class ReviewForm extends Component {
 				realworld: reviewCheck[0].realworld,
 				review: reviewCheck[0].review
 			});
+		} else{
+			this.setState({
+				team: 0,
+				whitepaper: 0,
+				roadmap: 0,
+				landscape: 0,
+				realworld: 0,
+				review: ""
+			})
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		const { reviewCheck } = this.props;
+
+		if (prevProps.reviewCheck.length != this.props.reviewCheck.length){
+			if (reviewCheck.length > 0) {
+				this.setState({
+					team: reviewCheck[0].team,
+					whitepaper: reviewCheck[0].whitepaper,
+					roadmap: reviewCheck[0].roadmap,
+					landscape: reviewCheck[0].landscape,
+					realworld: reviewCheck[0].realworld,
+					review: reviewCheck[0].review
+				});
+			} else{
+				this.setState({
+					team: 0,
+					whitepaper: 0,
+					roadmap: 0,
+					landscape: 0,
+					realworld: 0,
+					review: ""
+				})
+			}
 		}
 	}
 
@@ -139,6 +173,7 @@ class ReviewForm extends Component {
 			landscape,
 			realworld,
 			reviewAvg,
+			review,
 			coinUid,
 			uid,
 			reviewKey
@@ -163,7 +198,8 @@ class ReviewForm extends Component {
 			realworld,
 			review
 		} = this.state;
-		const { reviewCheck } = this.props;
+		const { reviewCheck, user } = this.props;
+		console.log(reviewCheck)
 		return (
 			<div className="review-box">
 				<Form
@@ -246,7 +282,7 @@ class ReviewForm extends Component {
 							<Rate style={{ fontSize: 40 }} allowHalf value={reviewAvg} />
 						</FormItem>
 						<FormItem>
-							{reviewCheck.length > 0 ? (
+							{user && reviewCheck.length > 0 ? (
 								<Button htmlType="submit">Update Review</Button>
 							) : (
 								<Button htmlType="submit">Submit Review</Button>

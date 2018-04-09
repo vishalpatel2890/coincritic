@@ -5,6 +5,7 @@ import {
   FETCH_COMMENTS_FOR_POST_SUCCESS,
   VOTE_POST,
   FETCH_POSTS_USER_VOTES,
+  FETCH_USERS_FOLLOWING_POST,
   FETCH_POST_DETAILS
 } from "../constants/constants";
 import firebase from "firebase";
@@ -34,6 +35,17 @@ export const fetchPostsForCoin = (coinUid) => {
 			.on("value", snapshot => {
 				dispatch({ type: FETCH_POSTS_FOR_COIN_SUCCESS, payload: snapshot.val() });
 			});
+  }
+}
+
+export const fetchUsersFollowingPost = (postUid) => {
+  return dispatch => {
+    firebase
+      .database()
+      .ref("/followersbyPost/" + postUid)
+      .on("value", snapshot => {
+        dispatch({ type: FETCH_USERS_FOLLOWING_POST, payload: snapshot.val() });
+      });
   }
 }
 
@@ -106,4 +118,8 @@ export const fetchPostDetails = (postUid, coinUid) => {
         dispatch({ type: FETCH_POST_DETAILS, payload: snapshot.val() });
       });
   }
+}
+
+export const incrementCommentCount = (usersFollowingPost) => {
+  console.log(usersFollowingPost)
 }

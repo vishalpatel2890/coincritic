@@ -64,6 +64,7 @@ html {
 
 .App-avatar {
 	justify-content: flex-end;
+	margin-left: .5vw;
 }
 
 .App-avatar .ant-avatar-lg {

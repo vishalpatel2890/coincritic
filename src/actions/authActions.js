@@ -4,6 +4,7 @@ import {
 	PASSWORD_CHANGED,
 	LOGIN_USER_SUCCESS,
 	LOGIN_USER_FAIL,
+	LOGIN_USER_FAIL_RESET,
 	LOGIN_USER,
 	SIGNUP_USER,
 	FETCH_FOLLOWED_COINS_SUCCESS,
@@ -29,6 +30,12 @@ export const passwordChanged = text => {
 	};
 };
 
+export const loginFailReset = () => {
+	return{
+		type: LOGIN_USER_FAIL_RESET
+	}
+}
+
 export const loginUser = ({ email, password }) => {
 	return dispatch => {
 		dispatch({ type: LOGIN_USER });
@@ -42,7 +49,6 @@ export const loginUser = ({ email, password }) => {
 					.then(user => loginUserSuccess(dispatch, user))
 					.catch(error => {
 						loginUserFail(dispatch, error.code)
-						console.log(error.code);
 					});
 			})
 			.catch(error => {
@@ -77,7 +83,7 @@ export const signUpUser = ({
 };
 
 const loginUserFail = (dispatch, error) => {
-	console.log(error);
+
 	dispatch({ type: LOGIN_USER_FAIL, payload: error });
 };
 

@@ -13,6 +13,7 @@ import {
 	emailChanged,
 	passwordChanged,
 	loginUser,
+	loginFailReset,
 	signUpUser,
 	reLoginUser,
 	signOutUser,
@@ -49,6 +50,8 @@ class Header extends Component {
 			this.props.reLoginUser(this.props.user);
 		}
 	}
+
+
 
 	componentDidUpdate(prevProps, prevState) {
 		const {
@@ -124,6 +127,32 @@ class Header extends Component {
 				this.setState({ registerEmailValidate: "success", registerEmailValidateUnique: "success", registerEmailValidateRegex:"success" });
 			}
 		}
+
+		if (prevProps.error !== this.props.error) {
+			if (this.props.error !== null) {
+			if (this.props.error === "auth/user-not-found"){
+		        alert('Sorry, user not found')
+
+		      }
+		      else if (this.props.error === "auth/wrong-password") {
+		        alert('Sorry, wrong password')
+		        this.props.loginFailReset();
+		      }
+		      else if (this.props.error === "auth/invalid-email"){
+		        alert('Sorry this is not a valid email address')
+		        this.props.loginFailReset();
+		      }
+		      else {
+		        alert('sorry something went wrong!')
+		        this.props.loginFailReset();
+		      }
+		    }
+				else{
+					null
+			}
+			}
+
+
 	}
 
 	handleSignInOpen = () => {
@@ -154,16 +183,8 @@ class Header extends Component {
 		e.preventDefault();
 		const { email, password } = this.props;
 		this.props.loginUser({ email, password });
-		if (this.props.error === "auth/user-not-found"){
-			alert('Sorry, user not found')
-		}
-		else if (this.props.error === "auth/wrong-password") {
-			alert('Sorry, wrong password')
-		}
-		else{
-		this.setState({ signInOpen: false });
+
 	}
-	};
 
 	onRegister = e => {
 		e.preventDefault();
@@ -174,7 +195,6 @@ class Header extends Component {
 			registerPassword,
 			registerUsername
 		});
-		console.log(this.props.error);
 		this.setState({ registerOpen: false });
 	};
 
@@ -191,7 +211,7 @@ class Header extends Component {
 
 		const regex = new RegExp("^" + escapedValue, "i");
 
-		return this.props.coins.filter(coin => regex.test(coin.uid));
+		return this.props.coins.filter(coin => regex.test(coin.ticker));
 	}
 
 	getSuggestionValue(suggestion) {
@@ -202,7 +222,7 @@ class Header extends Component {
 		const suggestionimage = suggestion.image;
 		const logo = suggestion.image ? (suggestion.image) : (placeholderLogo)
 		return <Link to={`/coins/${suggestion.uid}`} replace={true}><span><img src={logo} height="31" width="31" style={{marginRight: "1em" }}/>
-						{suggestion.uid}
+						{suggestion.uid} ({suggestion.ticker})
 					</span></Link>;
 	}
 
@@ -228,10 +248,13 @@ class Header extends Component {
 		const { user } = this.props;
 		const { value, suggestions, registerEmailValidate, registerEmailValidateRegex, registerEmailValidateUnique, registerVerifyPasswordValidate, registerPasswordValidate, registerUsernameValidateUnique, registerUsernameValidateLength} = this.state
 		const inputProps = {
-      placeholder: "search coins",
+      placeholder: "search by coin ticker",
       value,
       onChange: this.onChange
     };
+		console.log(this.state.signInOpen)
+
+
 		return (
 			<header className="App-header">
 				<Link to='/' style={{width: "15%", marginRight: "2vw"}}><img src={landscape} alt="logo" style={{width: "100%"}}/></Link>
@@ -394,7 +417,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => {
-	const { email, password, error, loading, user } = state.auth;
+	const { email, password, loading, user } = state.auth;
+	const {error} = state;
 	const coins = _.map(state.coins, (val, uid) => {
 		return { ...val, uid };
 	});
@@ -406,6 +430,7 @@ export default connect(mapStateToProps, {
 	emailChanged,
 	passwordChanged,
 	loginUser,
+	loginFailReset,
 	reLoginUser,
 	signUpUser,
 	signOutUser,

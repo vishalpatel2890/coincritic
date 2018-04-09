@@ -13,7 +13,9 @@ import {
 	fetchPostDetails,
 	followPost,
 	unfollowPost,
-	votePost
+	votePost,
+	fetchUsersFollowingPost,
+	incrementCommentCount
 } from "../actions";
 
 var moment = require("moment");
@@ -33,6 +35,7 @@ class ThreadPage extends Component {
 	componentWillMount() {
 		this.props.fetchCommentsForPost(this.props.postUid);
 		this.props.fetchPostDetails(this.props.postUid, this.props.coinUid);
+		this.props.fetchUsersFollowingPost(this.props.postUid);
 	}
 
 	handlePostChange = value => {
@@ -41,7 +44,7 @@ class ThreadPage extends Component {
 
 	submitComment = e => {
 		e.preventDefault();
-		const { postUid, coinUid } = this.props;
+		const { postUid, coinUid, usersFollowingPost } = this.props;
 		const { displayName, uid } = this.props.user;
 		const { comment, commentCount } = this.state;
 		if (comment){
@@ -54,6 +57,7 @@ class ThreadPage extends Component {
 			uid
 		});
 		this.setState({ comment: "", commentCount: commentCount + 1 })
+
 	} else {
 		alert('Please enter a comment!')
 	}
@@ -237,8 +241,11 @@ const mapStateToProps = state => {
 	const followedPosts = _.map(state.followedPosts, (val, uid) => {
 		return { ...val, uid };
 	});
-	const { postsVotes, } = state.userVotes;
-	return { currentCoin, commentsForPost, user, postDetails, followedPosts, postsVotes };
+	const usersFollowingPost = _.map(state.usersFollowingPost, (val, uid) => {
+		return { ...val, uid };
+	});
+	const { postsVotes } = state.userVotes;
+	return { currentCoin, commentsForPost, user, postDetails, followedPosts, postsVotes, usersFollowingPost };
 };
 
 export default connect(mapStateToProps, {
@@ -247,5 +254,7 @@ export default connect(mapStateToProps, {
 	fetchPostDetails,
 	followPost,
 	unfollowPost,
-	votePost
+	votePost,
+	fetchUsersFollowingPost,
+	incrementCommentCount
 })(ThreadPage);

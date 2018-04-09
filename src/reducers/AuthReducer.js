@@ -3,6 +3,7 @@ import {
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
+  LOGIN_USER_FAIL_RESET,
   LOGIN_USER,
   SIGNOUT_USER
 } from '../constants/constants';
@@ -25,11 +26,21 @@ export const auth = (state = INITIAL_STATE, action) => {
       return { ...state, loading: true, error: null };
     case LOGIN_USER_SUCCESS:
       return { ...state, ...INITIAL_STATE, user: action.payload };
-    case LOGIN_USER_FAIL:
-      return { ...state, error: action.payload, password: '', loading: false };
+
      case SIGNOUT_USER:
       return { ...state, ...INITIAL_STATE}
     default:
       return state;
   }
 };
+
+export const error = (state = null, action) =>{
+  switch (action.type) {
+  case LOGIN_USER_FAIL:
+    return action.payload;
+  case LOGIN_USER_FAIL_RESET:
+    return state
+    default:
+    return state;
+  }
+}

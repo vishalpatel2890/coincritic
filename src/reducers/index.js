@@ -2,10 +2,11 @@ import { combineReducers } from "redux";
 import { reducer as reduxForm } from "redux-form";
 import { coinForm } from "./coinReducer";
 import { coins } from "./coinFetchReducer";
-import { auth } from "./AuthReducer";
+import { auth, error } from "./AuthReducer";
 import { followCoin } from "./userFollowReducer"
 import { followedCoins } from "./fetchFollowedCoinsReducer"
 import { followedPosts } from "./fetchFollowedPostsReducer"
+import {usersFollowingPost} from "./fetchUsersFollowingPost"
 import {currentCoin} from "./fetchSingleCoinReducer"
 import {postsForCoin} from "./fetchPostsForCoinReducer"
 import {commentsForPost} from "./fetchCommentsForPostReducer"
@@ -18,6 +19,7 @@ import {reviewsByUser} from "./fetchReviewsLeftReducer"
 
 const rootReducer = combineReducers({
 	auth,
+	error,
 	coinForm,
 	coins,
 	followCoin,
@@ -32,6 +34,7 @@ const rootReducer = combineReducers({
 	userVotes,
 	coinReviews,
 	reviewsByUser,
+	usersFollowingPost,
 	form: reduxForm
 });
 

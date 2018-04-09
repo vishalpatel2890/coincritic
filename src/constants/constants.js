@@ -8,6 +8,7 @@ export const EMAIL_CHANGED = "email_changed";
 export const PASSWORD_CHANGED = "password_changed";
 export const LOGIN_USER_SUCCESS = "login_user_success";
 export const LOGIN_USER_FAIL = "login_user_failed";
+export const LOGIN_USER_FAIL_RESET = "login_user_fail_reset"
 export const LOGIN_USER = "login_user";
 export const SIGNUP_USER = "signup_user";
 export const ADD_USERNAME_REF = "add_username_ref";
@@ -25,6 +26,7 @@ export const NAV_COIN = "navigate_to_coin";
 //Posts
 export const ADD_POST = "add_post";
 export const FETCH_POSTS_FOR_COIN_SUCCESS = "fetch_posts_for_coin_success";
+export const FETCH_USERS_FOLLOWING_POST = "fetch_users_following_post";
 export const VOTE_POST = "vote_post";
 export const FETCH_POSTS_USER_VOTES = "fetch_posts_user_votes";
 export const FETCH_POST_DETAILS = "fetch_post_details";
