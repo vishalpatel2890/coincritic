@@ -13,4 +13,4 @@
 * ### create-react-app
 * ### redux
 * ### [ant.design framework](https://ant.design)
-* ### [Firebase]
+* ### Firebase
